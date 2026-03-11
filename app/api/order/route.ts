@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { getPrisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 type OrderPayload = {
@@ -12,6 +12,7 @@ type OrderPayload = {
 };
 
 export async function POST(request: Request) {
+  const prisma = getPrisma();
   const body = (await request.json()) as OrderPayload;
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_OWNER_CHAT_ID;
