@@ -178,6 +178,7 @@ export default function Page() {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null)
   const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
   const [message, setMessage] = useState('')
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false)
   const [buyer, setBuyer] = useState<TelegramUser | undefined>()
   const [walkDate, setWalkDate] = useState('')
   const [walkPeriod, setWalkPeriod] = useState<WalkPeriod>('Вечерняя')
@@ -218,6 +219,7 @@ export default function Page() {
     setSelectedOffer(offer)
     setStatus('sending')
     setMessage('')
+    setIsStatusModalOpen(true)
 
     try {
       const response = await fetch('/api/order', {
@@ -271,6 +273,88 @@ export default function Page() {
 
   return (
     <main className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_26%),radial-gradient(circle_at_85%_20%,_rgba(253,186,116,0.22),_transparent_20%),linear-gradient(180deg,_#07111f_0%,_#140c1e_52%,_#070d18_100%)]">
+      {isStatusModalOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-md">
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="modal-box w-full max-w-lg rounded-[2rem] border border-white/10 bg-[#120f1f]/95 p-0 shadow-2xl"
+          >
+            <div
+              className={`h-2 w-full ${
+                status === 'done'
+                  ? 'bg-gradient-to-r from-emerald-300 via-lime-300 to-teal-400'
+                  : status === 'error'
+                    ? 'bg-gradient-to-r from-rose-400 via-orange-300 to-amber-300'
+                    : 'bg-gradient-to-r from-sky-400 via-cyan-300 to-violet-400'
+              }`}
+            />
+            <div className="space-y-5 p-6 sm:p-7">
+              <div className="flex items-start justify-between gap-4">
+                <div className="space-y-2">
+                  <div className="badge badge-outline border-white/15 bg-white/5 px-4 py-3 uppercase tracking-[0.24em] text-white/65">
+                    {status === 'sending'
+                      ? 'Оформляю'
+                      : status === 'done'
+                        ? 'Готово'
+                        : 'Ошибка'}
+                  </div>
+                  <h3 className="text-3xl font-black text-white">
+                    {status === 'sending'
+                      ? 'Отправляю заявку'
+                      : status === 'done'
+                        ? 'Заявка оформлена'
+                        : 'Не удалось оформить'}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-circle btn-ghost text-white/60 hover:bg-white/10"
+                  onClick={() => {
+                    if (status !== 'sending') {
+                      setIsStatusModalOpen(false)
+                    }
+                  }}
+                  disabled={status === 'sending'}
+                  aria-label="Закрыть окно статуса"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div
+                className={`rounded-[1.5rem] border p-4 text-base leading-8 ${
+                  status === 'done'
+                    ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-50'
+                    : status === 'error'
+                      ? 'border-rose-300/20 bg-rose-400/10 text-rose-50'
+                      : 'border-white/10 bg-white/5 text-white/75'
+                }`}
+              >
+                {message ||
+                  'Связываюсь с базой, Telegram и ботом. Обычно это занимает пару секунд.'}
+              </div>
+
+              <div className="flex justify-end">
+                {status === 'sending' ? (
+                  <span className="loading loading-dots loading-md text-warning" />
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-warning rounded-full px-8 text-neutral"
+                    onClick={() => setIsStatusModalOpen(false)}
+                  >
+                    Понятно
+                  </button>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      ) : null}
+
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20" />
       <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6">
         <motion.section
@@ -552,7 +636,7 @@ export default function Page() {
             initial="hidden"
             animate="visible"
             transition={{ delay: 0.2, duration: 0.45, ease: 'easeOut' }}
-            className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]"
+            className="grid gap-4 lg:grid-cols-1"
           >
             <div className="card border border-emerald-300/15 bg-gradient-to-br from-emerald-400/10 via-base-100/10 to-teal-400/10 shadow-xl">
               <div className="card-body gap-5">
@@ -561,7 +645,7 @@ export default function Page() {
                   <h3 className="text-3xl font-black text-white">Предложить кастомную оплату</h3>
                   <p className="text-base leading-7 text-white/70">
                     Если стандартные тарифы не подходят, сформулируй свой вариант. Он уйдет отдельной
-                    заявкой, а решение все равно останется за тобой.
+                    заявкой, а решение все равно останется за партнером.
                   </p>
                 </div>
                 <textarea
@@ -580,26 +664,6 @@ export default function Page() {
                     ? 'Отправляю...'
                     : 'Предложить свой вариант'}
                 </button>
-              </div>
-            </div>
-
-            <div
-              className={`alert min-h-full items-start rounded-[2rem] border shadow-xl ${
-                status === 'done'
-                  ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-100'
-                  : status === 'error'
-                    ? 'border-rose-300/20 bg-rose-400/10 text-rose-100'
-                    : 'border-white/10 bg-white/5 text-white/70'
-              }`}
-            >
-              <div className="space-y-3">
-                <div className="badge badge-outline border-current/20 bg-transparent px-4 py-3 uppercase tracking-[0.24em]">
-                  Статус
-                </div>
-                <p className="text-lg leading-8">
-                  {message ||
-                    'После оформления бот напишет вам обоим, а в чате партнера появятся кнопки действия для подтверждения или отказа предложения.'}
-                </p>
               </div>
             </div>
           </motion.section>
