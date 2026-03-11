@@ -10,6 +10,8 @@ type Offer = {
   accent: string;
 };
 
+type WalkPeriod = "Утренняя" | "Вечерняя";
+
 type TelegramUser = {
   first_name?: string;
   last_name?: string;
@@ -56,18 +58,7 @@ const offers: Offer[] = [
   },
 ];
 
-const timeOptions = [
-  "07:00",
-  "08:00",
-  "09:00",
-  "10:00",
-  "12:00",
-  "14:00",
-  "16:00",
-  "18:00",
-  "20:00",
-  "22:00",
-];
+const walkPeriods: WalkPeriod[] = ["Утренняя", "Вечерняя"];
 
 function getBuyerLabel(user?: TelegramUser) {
   if (!user) return "Анонимная заказчица";
@@ -119,25 +110,13 @@ function getTelegramUser() {
 
 function getDefaultWalkSlot() {
   const now = new Date();
-  now.setHours(now.getHours() + 1, 0, 0, 0);
   const timezoneOffset = now.getTimezoneOffset();
   const localTime = new Date(now.getTime() - timezoneOffset * 60_000);
-  return {
-    date: localTime.toISOString().slice(0, 10),
-    time: localTime.toISOString().slice(11, 16),
-  };
+  return localTime.toISOString().slice(0, 10);
 }
 
-function combineWalkSlot(date: string, time: string) {
-  if (!date || !time) {
-    return "";
-  }
-
-  return `${date}T${time}`;
-}
-
-function formatWalkSlot(value: string) {
-  const date = new Date(value);
+function formatWalkDate(value: string) {
+  const date = new Date(`${value}T12:00:00`);
 
   if (Number.isNaN(date.getTime())) {
     return value;
@@ -146,8 +125,6 @@ function formatWalkSlot(value: string) {
   return new Intl.DateTimeFormat("ru-RU", {
     day: "2-digit",
     month: "long",
-    hour: "2-digit",
-    minute: "2-digit",
     weekday: "long",
   }).format(date);
 }
@@ -157,8 +134,9 @@ export default function Page() {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
   const [buyer, setBuyer] = useState<TelegramUser | undefined>();
-  const [walkDate, setWalkDate] = useState(() => getDefaultWalkSlot().date);
-  const [walkTime, setWalkTime] = useState(() => getDefaultWalkSlot().time);
+  const [walkDate, setWalkDate] = useState(getDefaultWalkSlot);
+  const [walkPeriod, setWalkPeriod] = useState<WalkPeriod>("Вечерняя");
+  const [customPayment, setCustomPayment] = useState("");
 
   useEffect(() => {
     const telegram = (window as TelegramWindow).Telegram?.WebApp;
@@ -168,11 +146,15 @@ export default function Page() {
   }, []);
 
   async function submitOrder(offer: Offer) {
-    const walkAt = combineWalkSlot(walkDate, walkTime);
-
-    if (!walkAt) {
+    if (!walkDate || !walkPeriod) {
       setStatus("error");
-      setMessage("Сначала выбери дату и время прогулки.");
+      setMessage("Сначала выбери дату и тип прогулки.");
+      return;
+    }
+
+    if (!buyer?.id) {
+      setStatus("error");
+      setMessage("Открой приложение через Telegram-бота, чтобы он мог присылать тебе уведомления.");
       return;
     }
 
@@ -190,10 +172,11 @@ export default function Page() {
           offerId: offer.id,
           offerTitle: offer.title,
           offerPrice: offer.price,
-          walkAt: formatWalkSlot(walkAt),
+          walkDate: formatWalkDate(walkDate),
+          walkPeriod,
           buyer: getBuyerLabel(buyer),
           username: buyer?.username ?? null,
-          buyerTelegramId: buyer?.id ? String(buyer.id) : null,
+          buyerTelegramId: String(buyer.id),
         }),
       });
 
@@ -203,12 +186,30 @@ export default function Page() {
 
       setStatus("done");
       setMessage(
-        `Заявка на "${offer.title}" на ${formatWalkSlot(walkAt)} оформлена. Уведомление уже улетело.`,
+        `Заявка на "${offer.title}" на ${formatWalkDate(walkDate)}, ${walkPeriod.toLowerCase()} оформлена. Бот написал вам обоим и теперь ждет твоего решения.`,
       );
     } catch {
       setStatus("error");
       setMessage("Не получилось отправить уведомление. Проверь токен бота и chat id.");
     }
+  }
+
+  async function submitCustomPayment() {
+    const normalizedPayment = customPayment.trim();
+
+    if (!normalizedPayment) {
+      setStatus("error");
+      setMessage("Сначала впиши свой вариант оплаты.");
+      return;
+    }
+
+    await submitOrder({
+      id: "custom-offer",
+      title: "Индивидуальное предложение",
+      description: normalizedPayment,
+      price: normalizedPayment,
+      accent: "from-lime-300 to-emerald-400",
+    });
   }
 
   return (
@@ -257,8 +258,7 @@ export default function Page() {
           <div>
             <p className="schedule-label">Когда нужна прогулка</p>
             <p className="schedule-hint">
-              Выберите дату и ткните в удобное время. Так намного удобнее, чем системный picker
-              внутри Telegram.
+              Выбери дату и формат прогулки: утренняя или вечерняя.
             </p>
           </div>
           <div className="schedule-controls">
@@ -273,35 +273,20 @@ export default function Page() {
             </label>
 
             <div className="schedule-input-wrap">
-              <span>Время</span>
-              <div className="time-grid" role="list" aria-label="Выбор времени">
-                {timeOptions.map((time) => (
+              <span>Тип прогулки</span>
+              <div className="time-grid" role="list" aria-label="Выбор типа прогулки">
+                {walkPeriods.map((period) => (
                   <button
-                    key={time}
+                    key={period}
                     type="button"
-                    className={`time-chip ${walkTime === time ? "active" : ""}`}
-                    onClick={() => setWalkTime(time)}
+                    className={`time-chip ${walkPeriod === period ? "active" : ""}`}
+                    onClick={() => setWalkPeriod(period)}
                   >
-                    {time}
+                    {period}
                   </button>
                 ))}
               </div>
             </div>
-
-            <label className="schedule-input-wrap">
-              <span>Или выбери точное время</span>
-              <select
-                className="schedule-input schedule-select"
-                value={walkTime}
-                onChange={(event) => setWalkTime(event.target.value)}
-              >
-                {timeOptions.map((time) => (
-                  <option key={time} value={time}>
-                    {time}
-                  </option>
-                ))}
-              </select>
-            </label>
           </div>
         </div>
 
@@ -326,9 +311,34 @@ export default function Page() {
           ))}
         </div>
 
+        <div className="custom-offer-card">
+          <p className="offer-title">Свой вариант</p>
+          <p className="custom-offer-copy">
+            Если стандартные тарифы не подходят, можно предложить свою оплату. Ты потом решишь,
+            принять это предложение или отклонить.
+          </p>
+          <textarea
+            className="custom-offer-input"
+            placeholder="Например: ужин + массаж + я сама мою лапы после прогулки"
+            value={customPayment}
+            onChange={(event) => setCustomPayment(event.target.value)}
+            rows={4}
+          />
+          <button
+            type="button"
+            className="offer-button custom-offer-button"
+            onClick={() => void submitCustomPayment()}
+            disabled={status === "sending"}
+          >
+            {status === "sending" && selectedOffer?.id === "custom-offer"
+              ? "Отправляю..."
+              : "Предложить свой вариант"}
+          </button>
+        </div>
+
         <div className={`status-panel ${status}`}>
           <span className="status-label">Статус</span>
-          <p>{message || "После оформления тебе придет уведомление в Telegram."}</p>
+          <p>{message || "После оформления бот напишет вам обоим. Затем ты подтвердишь или отклонишь заявку из своего чата."}</p>
         </div>
       </section>
     </main>

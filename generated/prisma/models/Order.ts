@@ -29,12 +29,17 @@ export type OrderMinAggregateOutputType = {
   offerId: string | null
   offerTitle: string | null
   offerPrice: string | null
-  walkAtLabel: string | null
+  walkDateLabel: string | null
+  walkPeriodLabel: string | null
   buyerName: string | null
   buyerUsername: string | null
   buyerTelegramId: string | null
+  status: string | null
   notificationStatus: string | null
   notificationError: string | null
+  buyerNotificationStatus: string | null
+  buyerNotificationError: string | null
+  decisionAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,12 +49,17 @@ export type OrderMaxAggregateOutputType = {
   offerId: string | null
   offerTitle: string | null
   offerPrice: string | null
-  walkAtLabel: string | null
+  walkDateLabel: string | null
+  walkPeriodLabel: string | null
   buyerName: string | null
   buyerUsername: string | null
   buyerTelegramId: string | null
+  status: string | null
   notificationStatus: string | null
   notificationError: string | null
+  buyerNotificationStatus: string | null
+  buyerNotificationError: string | null
+  decisionAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,12 +69,17 @@ export type OrderCountAggregateOutputType = {
   offerId: number
   offerTitle: number
   offerPrice: number
-  walkAtLabel: number
+  walkDateLabel: number
+  walkPeriodLabel: number
   buyerName: number
   buyerUsername: number
   buyerTelegramId: number
+  status: number
   notificationStatus: number
   notificationError: number
+  buyerNotificationStatus: number
+  buyerNotificationError: number
+  decisionAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -76,12 +91,17 @@ export type OrderMinAggregateInputType = {
   offerId?: true
   offerTitle?: true
   offerPrice?: true
-  walkAtLabel?: true
+  walkDateLabel?: true
+  walkPeriodLabel?: true
   buyerName?: true
   buyerUsername?: true
   buyerTelegramId?: true
+  status?: true
   notificationStatus?: true
   notificationError?: true
+  buyerNotificationStatus?: true
+  buyerNotificationError?: true
+  decisionAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -91,12 +111,17 @@ export type OrderMaxAggregateInputType = {
   offerId?: true
   offerTitle?: true
   offerPrice?: true
-  walkAtLabel?: true
+  walkDateLabel?: true
+  walkPeriodLabel?: true
   buyerName?: true
   buyerUsername?: true
   buyerTelegramId?: true
+  status?: true
   notificationStatus?: true
   notificationError?: true
+  buyerNotificationStatus?: true
+  buyerNotificationError?: true
+  decisionAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,12 +131,17 @@ export type OrderCountAggregateInputType = {
   offerId?: true
   offerTitle?: true
   offerPrice?: true
-  walkAtLabel?: true
+  walkDateLabel?: true
+  walkPeriodLabel?: true
   buyerName?: true
   buyerUsername?: true
   buyerTelegramId?: true
+  status?: true
   notificationStatus?: true
   notificationError?: true
+  buyerNotificationStatus?: true
+  buyerNotificationError?: true
+  decisionAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -194,12 +224,17 @@ export type OrderGroupByOutputType = {
   offerId: string
   offerTitle: string
   offerPrice: string
-  walkAtLabel: string
+  walkDateLabel: string | null
+  walkPeriodLabel: string | null
   buyerName: string
   buyerUsername: string | null
   buyerTelegramId: string | null
+  status: string
   notificationStatus: string
   notificationError: string | null
+  buyerNotificationStatus: string
+  buyerNotificationError: string | null
+  decisionAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: OrderCountAggregateOutputType | null
@@ -230,12 +265,17 @@ export type OrderWhereInput = {
   offerId?: Prisma.StringFilter<"Order"> | string
   offerTitle?: Prisma.StringFilter<"Order"> | string
   offerPrice?: Prisma.StringFilter<"Order"> | string
-  walkAtLabel?: Prisma.StringFilter<"Order"> | string
+  walkDateLabel?: Prisma.StringNullableFilter<"Order"> | string | null
+  walkPeriodLabel?: Prisma.StringNullableFilter<"Order"> | string | null
   buyerName?: Prisma.StringFilter<"Order"> | string
   buyerUsername?: Prisma.StringNullableFilter<"Order"> | string | null
   buyerTelegramId?: Prisma.StringNullableFilter<"Order"> | string | null
+  status?: Prisma.StringFilter<"Order"> | string
   notificationStatus?: Prisma.StringFilter<"Order"> | string
   notificationError?: Prisma.StringNullableFilter<"Order"> | string | null
+  buyerNotificationStatus?: Prisma.StringFilter<"Order"> | string
+  buyerNotificationError?: Prisma.StringNullableFilter<"Order"> | string | null
+  decisionAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
 }
@@ -245,12 +285,17 @@ export type OrderOrderByWithRelationInput = {
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
-  walkAtLabel?: Prisma.SortOrder
+  walkDateLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  walkPeriodLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrderInput | Prisma.SortOrder
+  buyerNotificationStatus?: Prisma.SortOrder
+  buyerNotificationError?: Prisma.SortOrderInput | Prisma.SortOrder
+  decisionAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -263,12 +308,17 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   offerId?: Prisma.StringFilter<"Order"> | string
   offerTitle?: Prisma.StringFilter<"Order"> | string
   offerPrice?: Prisma.StringFilter<"Order"> | string
-  walkAtLabel?: Prisma.StringFilter<"Order"> | string
+  walkDateLabel?: Prisma.StringNullableFilter<"Order"> | string | null
+  walkPeriodLabel?: Prisma.StringNullableFilter<"Order"> | string | null
   buyerName?: Prisma.StringFilter<"Order"> | string
   buyerUsername?: Prisma.StringNullableFilter<"Order"> | string | null
   buyerTelegramId?: Prisma.StringNullableFilter<"Order"> | string | null
+  status?: Prisma.StringFilter<"Order"> | string
   notificationStatus?: Prisma.StringFilter<"Order"> | string
   notificationError?: Prisma.StringNullableFilter<"Order"> | string | null
+  buyerNotificationStatus?: Prisma.StringFilter<"Order"> | string
+  buyerNotificationError?: Prisma.StringNullableFilter<"Order"> | string | null
+  decisionAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
 }, "id">
@@ -278,12 +328,17 @@ export type OrderOrderByWithAggregationInput = {
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
-  walkAtLabel?: Prisma.SortOrder
+  walkDateLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  walkPeriodLabel?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrderInput | Prisma.SortOrder
+  buyerNotificationStatus?: Prisma.SortOrder
+  buyerNotificationError?: Prisma.SortOrderInput | Prisma.SortOrder
+  decisionAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
@@ -299,12 +354,17 @@ export type OrderScalarWhereWithAggregatesInput = {
   offerId?: Prisma.StringWithAggregatesFilter<"Order"> | string
   offerTitle?: Prisma.StringWithAggregatesFilter<"Order"> | string
   offerPrice?: Prisma.StringWithAggregatesFilter<"Order"> | string
-  walkAtLabel?: Prisma.StringWithAggregatesFilter<"Order"> | string
+  walkDateLabel?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  walkPeriodLabel?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   buyerName?: Prisma.StringWithAggregatesFilter<"Order"> | string
   buyerUsername?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   buyerTelegramId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  status?: Prisma.StringWithAggregatesFilter<"Order"> | string
   notificationStatus?: Prisma.StringWithAggregatesFilter<"Order"> | string
   notificationError?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  buyerNotificationStatus?: Prisma.StringWithAggregatesFilter<"Order"> | string
+  buyerNotificationError?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  decisionAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Order"> | Date | string
 }
@@ -314,12 +374,17 @@ export type OrderCreateInput = {
   offerId: string
   offerTitle: string
   offerPrice: string
-  walkAtLabel: string
+  walkDateLabel?: string | null
+  walkPeriodLabel?: string | null
   buyerName: string
   buyerUsername?: string | null
   buyerTelegramId?: string | null
+  status?: string
   notificationStatus?: string
   notificationError?: string | null
+  buyerNotificationStatus?: string
+  buyerNotificationError?: string | null
+  decisionAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -329,12 +394,17 @@ export type OrderUncheckedCreateInput = {
   offerId: string
   offerTitle: string
   offerPrice: string
-  walkAtLabel: string
+  walkDateLabel?: string | null
+  walkPeriodLabel?: string | null
   buyerName: string
   buyerUsername?: string | null
   buyerTelegramId?: string | null
+  status?: string
   notificationStatus?: string
   notificationError?: string | null
+  buyerNotificationStatus?: string
+  buyerNotificationError?: string | null
+  decisionAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -344,12 +414,17 @@ export type OrderUpdateInput = {
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
   offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
-  walkAtLabel?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -359,12 +434,17 @@ export type OrderUncheckedUpdateInput = {
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
   offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
-  walkAtLabel?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -374,12 +454,17 @@ export type OrderCreateManyInput = {
   offerId: string
   offerTitle: string
   offerPrice: string
-  walkAtLabel: string
+  walkDateLabel?: string | null
+  walkPeriodLabel?: string | null
   buyerName: string
   buyerUsername?: string | null
   buyerTelegramId?: string | null
+  status?: string
   notificationStatus?: string
   notificationError?: string | null
+  buyerNotificationStatus?: string
+  buyerNotificationError?: string | null
+  decisionAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -389,12 +474,17 @@ export type OrderUpdateManyMutationInput = {
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
   offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
-  walkAtLabel?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -404,12 +494,17 @@ export type OrderUncheckedUpdateManyInput = {
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
   offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
-  walkAtLabel?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -419,12 +514,17 @@ export type OrderCountOrderByAggregateInput = {
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
-  walkAtLabel?: Prisma.SortOrder
+  walkDateLabel?: Prisma.SortOrder
+  walkPeriodLabel?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrder
+  buyerNotificationStatus?: Prisma.SortOrder
+  buyerNotificationError?: Prisma.SortOrder
+  decisionAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -434,12 +534,17 @@ export type OrderMaxOrderByAggregateInput = {
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
-  walkAtLabel?: Prisma.SortOrder
+  walkDateLabel?: Prisma.SortOrder
+  walkPeriodLabel?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrder
+  buyerNotificationStatus?: Prisma.SortOrder
+  buyerNotificationError?: Prisma.SortOrder
+  decisionAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -449,12 +554,17 @@ export type OrderMinOrderByAggregateInput = {
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
-  walkAtLabel?: Prisma.SortOrder
+  walkDateLabel?: Prisma.SortOrder
+  walkPeriodLabel?: Prisma.SortOrder
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrder
+  buyerNotificationStatus?: Prisma.SortOrder
+  buyerNotificationError?: Prisma.SortOrder
+  decisionAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -465,6 +575,10 @@ export type StringFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -478,12 +592,17 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
-  walkAtLabel?: boolean
+  walkDateLabel?: boolean
+  walkPeriodLabel?: boolean
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
+  buyerNotificationStatus?: boolean
+  buyerNotificationError?: boolean
+  decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["order"]>
@@ -493,12 +612,17 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
-  walkAtLabel?: boolean
+  walkDateLabel?: boolean
+  walkPeriodLabel?: boolean
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
+  buyerNotificationStatus?: boolean
+  buyerNotificationError?: boolean
+  decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["order"]>
@@ -508,12 +632,17 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
-  walkAtLabel?: boolean
+  walkDateLabel?: boolean
+  walkPeriodLabel?: boolean
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
+  buyerNotificationStatus?: boolean
+  buyerNotificationError?: boolean
+  decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["order"]>
@@ -523,17 +652,22 @@ export type OrderSelectScalar = {
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
-  walkAtLabel?: boolean
+  walkDateLabel?: boolean
+  walkPeriodLabel?: boolean
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
+  buyerNotificationStatus?: boolean
+  buyerNotificationError?: boolean
+  decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "offerId" | "offerTitle" | "offerPrice" | "walkAtLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "notificationStatus" | "notificationError" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 
 export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Order"
@@ -543,12 +677,17 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     offerId: string
     offerTitle: string
     offerPrice: string
-    walkAtLabel: string
+    walkDateLabel: string | null
+    walkPeriodLabel: string | null
     buyerName: string
     buyerUsername: string | null
     buyerTelegramId: string | null
+    status: string
     notificationStatus: string
     notificationError: string | null
+    buyerNotificationStatus: string
+    buyerNotificationError: string | null
+    decisionAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["order"]>
@@ -978,12 +1117,17 @@ export interface OrderFieldRefs {
   readonly offerId: Prisma.FieldRef<"Order", 'String'>
   readonly offerTitle: Prisma.FieldRef<"Order", 'String'>
   readonly offerPrice: Prisma.FieldRef<"Order", 'String'>
-  readonly walkAtLabel: Prisma.FieldRef<"Order", 'String'>
+  readonly walkDateLabel: Prisma.FieldRef<"Order", 'String'>
+  readonly walkPeriodLabel: Prisma.FieldRef<"Order", 'String'>
   readonly buyerName: Prisma.FieldRef<"Order", 'String'>
   readonly buyerUsername: Prisma.FieldRef<"Order", 'String'>
   readonly buyerTelegramId: Prisma.FieldRef<"Order", 'String'>
+  readonly status: Prisma.FieldRef<"Order", 'String'>
   readonly notificationStatus: Prisma.FieldRef<"Order", 'String'>
   readonly notificationError: Prisma.FieldRef<"Order", 'String'>
+  readonly buyerNotificationStatus: Prisma.FieldRef<"Order", 'String'>
+  readonly buyerNotificationError: Prisma.FieldRef<"Order", 'String'>
+  readonly decisionAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Order", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Order", 'DateTime'>
 }

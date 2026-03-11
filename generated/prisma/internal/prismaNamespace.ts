@@ -522,12 +522,17 @@ export const OrderScalarFieldEnum = {
   offerId: 'offerId',
   offerTitle: 'offerTitle',
   offerPrice: 'offerPrice',
-  walkAtLabel: 'walkAtLabel',
+  walkDateLabel: 'walkDateLabel',
+  walkPeriodLabel: 'walkPeriodLabel',
   buyerName: 'buyerName',
   buyerUsername: 'buyerUsername',
   buyerTelegramId: 'buyerTelegramId',
+  status: 'status',
   notificationStatus: 'notificationStatus',
   notificationError: 'notificationError',
+  buyerNotificationStatus: 'buyerNotificationStatus',
+  buyerNotificationError: 'buyerNotificationError',
+  decisionAt: 'decisionAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

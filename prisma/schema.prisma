@@ -13,12 +13,17 @@ model Order {
   offerId            String
   offerTitle         String
   offerPrice         String
-  walkAtLabel        String
+  walkDateLabel      String?
+  walkPeriodLabel    String?
   buyerName          String
   buyerUsername      String?
   buyerTelegramId    String?
+  status             String   @default("pending")
   notificationStatus String   @default("pending")
   notificationError  String?
+  buyerNotificationStatus String @default("pending")
+  buyerNotificationError  String?
+  decisionAt         DateTime?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 }
