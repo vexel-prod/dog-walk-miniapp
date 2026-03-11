@@ -18,6 +18,7 @@ model Order {
   buyerName          String
   buyerUsername      String?
   buyerTelegramId    String?
+  ownerMessageId     Int?
   status             String   @default("pending")
   notificationStatus String   @default("pending")
   notificationError  String?

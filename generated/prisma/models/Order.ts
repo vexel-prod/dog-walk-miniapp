@@ -20,8 +20,18 @@ export type OrderModel = runtime.Types.Result.DefaultSelection<Prisma.$OrderPayl
 
 export type AggregateOrder = {
   _count: OrderCountAggregateOutputType | null
+  _avg: OrderAvgAggregateOutputType | null
+  _sum: OrderSumAggregateOutputType | null
   _min: OrderMinAggregateOutputType | null
   _max: OrderMaxAggregateOutputType | null
+}
+
+export type OrderAvgAggregateOutputType = {
+  ownerMessageId: number | null
+}
+
+export type OrderSumAggregateOutputType = {
+  ownerMessageId: number | null
 }
 
 export type OrderMinAggregateOutputType = {
@@ -34,6 +44,7 @@ export type OrderMinAggregateOutputType = {
   buyerName: string | null
   buyerUsername: string | null
   buyerTelegramId: string | null
+  ownerMessageId: number | null
   status: string | null
   notificationStatus: string | null
   notificationError: string | null
@@ -54,6 +65,7 @@ export type OrderMaxAggregateOutputType = {
   buyerName: string | null
   buyerUsername: string | null
   buyerTelegramId: string | null
+  ownerMessageId: number | null
   status: string | null
   notificationStatus: string | null
   notificationError: string | null
@@ -74,6 +86,7 @@ export type OrderCountAggregateOutputType = {
   buyerName: number
   buyerUsername: number
   buyerTelegramId: number
+  ownerMessageId: number
   status: number
   notificationStatus: number
   notificationError: number
@@ -86,6 +99,14 @@ export type OrderCountAggregateOutputType = {
 }
 
 
+export type OrderAvgAggregateInputType = {
+  ownerMessageId?: true
+}
+
+export type OrderSumAggregateInputType = {
+  ownerMessageId?: true
+}
+
 export type OrderMinAggregateInputType = {
   id?: true
   offerId?: true
@@ -96,6 +117,7 @@ export type OrderMinAggregateInputType = {
   buyerName?: true
   buyerUsername?: true
   buyerTelegramId?: true
+  ownerMessageId?: true
   status?: true
   notificationStatus?: true
   notificationError?: true
@@ -116,6 +138,7 @@ export type OrderMaxAggregateInputType = {
   buyerName?: true
   buyerUsername?: true
   buyerTelegramId?: true
+  ownerMessageId?: true
   status?: true
   notificationStatus?: true
   notificationError?: true
@@ -136,6 +159,7 @@ export type OrderCountAggregateInputType = {
   buyerName?: true
   buyerUsername?: true
   buyerTelegramId?: true
+  ownerMessageId?: true
   status?: true
   notificationStatus?: true
   notificationError?: true
@@ -185,6 +209,18 @@ export type OrderAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: OrderAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: OrderSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: OrderMinAggregateInputType
@@ -215,6 +251,8 @@ export type OrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: OrderCountAggregateInputType | true
+  _avg?: OrderAvgAggregateInputType
+  _sum?: OrderSumAggregateInputType
   _min?: OrderMinAggregateInputType
   _max?: OrderMaxAggregateInputType
 }
@@ -229,6 +267,7 @@ export type OrderGroupByOutputType = {
   buyerName: string
   buyerUsername: string | null
   buyerTelegramId: string | null
+  ownerMessageId: number | null
   status: string
   notificationStatus: string
   notificationError: string | null
@@ -238,6 +277,8 @@ export type OrderGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: OrderCountAggregateOutputType | null
+  _avg: OrderAvgAggregateOutputType | null
+  _sum: OrderSumAggregateOutputType | null
   _min: OrderMinAggregateOutputType | null
   _max: OrderMaxAggregateOutputType | null
 }
@@ -270,6 +311,7 @@ export type OrderWhereInput = {
   buyerName?: Prisma.StringFilter<"Order"> | string
   buyerUsername?: Prisma.StringNullableFilter<"Order"> | string | null
   buyerTelegramId?: Prisma.StringNullableFilter<"Order"> | string | null
+  ownerMessageId?: Prisma.IntNullableFilter<"Order"> | number | null
   status?: Prisma.StringFilter<"Order"> | string
   notificationStatus?: Prisma.StringFilter<"Order"> | string
   notificationError?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -290,6 +332,7 @@ export type OrderOrderByWithRelationInput = {
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -313,6 +356,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   buyerName?: Prisma.StringFilter<"Order"> | string
   buyerUsername?: Prisma.StringNullableFilter<"Order"> | string | null
   buyerTelegramId?: Prisma.StringNullableFilter<"Order"> | string | null
+  ownerMessageId?: Prisma.IntNullableFilter<"Order"> | number | null
   status?: Prisma.StringFilter<"Order"> | string
   notificationStatus?: Prisma.StringFilter<"Order"> | string
   notificationError?: Prisma.StringNullableFilter<"Order"> | string | null
@@ -333,6 +377,7 @@ export type OrderOrderByWithAggregationInput = {
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrderInput | Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerMessageId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -342,8 +387,10 @@ export type OrderOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.OrderCountOrderByAggregateInput
+  _avg?: Prisma.OrderAvgOrderByAggregateInput
   _max?: Prisma.OrderMaxOrderByAggregateInput
   _min?: Prisma.OrderMinOrderByAggregateInput
+  _sum?: Prisma.OrderSumOrderByAggregateInput
 }
 
 export type OrderScalarWhereWithAggregatesInput = {
@@ -359,6 +406,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   buyerName?: Prisma.StringWithAggregatesFilter<"Order"> | string
   buyerUsername?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
   buyerTelegramId?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
+  ownerMessageId?: Prisma.IntNullableWithAggregatesFilter<"Order"> | number | null
   status?: Prisma.StringWithAggregatesFilter<"Order"> | string
   notificationStatus?: Prisma.StringWithAggregatesFilter<"Order"> | string
   notificationError?: Prisma.StringNullableWithAggregatesFilter<"Order"> | string | null
@@ -379,6 +427,7 @@ export type OrderCreateInput = {
   buyerName: string
   buyerUsername?: string | null
   buyerTelegramId?: string | null
+  ownerMessageId?: number | null
   status?: string
   notificationStatus?: string
   notificationError?: string | null
@@ -399,6 +448,7 @@ export type OrderUncheckedCreateInput = {
   buyerName: string
   buyerUsername?: string | null
   buyerTelegramId?: string | null
+  ownerMessageId?: number | null
   status?: string
   notificationStatus?: string
   notificationError?: string | null
@@ -419,6 +469,7 @@ export type OrderUpdateInput = {
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -439,6 +490,7 @@ export type OrderUncheckedUpdateInput = {
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -459,6 +511,7 @@ export type OrderCreateManyInput = {
   buyerName: string
   buyerUsername?: string | null
   buyerTelegramId?: string | null
+  ownerMessageId?: number | null
   status?: string
   notificationStatus?: string
   notificationError?: string | null
@@ -479,6 +532,7 @@ export type OrderUpdateManyMutationInput = {
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -499,6 +553,7 @@ export type OrderUncheckedUpdateManyInput = {
   buyerName?: Prisma.StringFieldUpdateOperationsInput | string
   buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
   notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -519,6 +574,7 @@ export type OrderCountOrderByAggregateInput = {
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrder
+  ownerMessageId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrder
@@ -527,6 +583,10 @@ export type OrderCountOrderByAggregateInput = {
   decisionAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type OrderAvgOrderByAggregateInput = {
+  ownerMessageId?: Prisma.SortOrder
 }
 
 export type OrderMaxOrderByAggregateInput = {
@@ -539,6 +599,7 @@ export type OrderMaxOrderByAggregateInput = {
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrder
+  ownerMessageId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrder
@@ -559,6 +620,7 @@ export type OrderMinOrderByAggregateInput = {
   buyerName?: Prisma.SortOrder
   buyerUsername?: Prisma.SortOrder
   buyerTelegramId?: Prisma.SortOrder
+  ownerMessageId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   notificationStatus?: Prisma.SortOrder
   notificationError?: Prisma.SortOrder
@@ -569,12 +631,24 @@ export type OrderMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type OrderSumOrderByAggregateInput = {
+  ownerMessageId?: Prisma.SortOrder
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -597,6 +671,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  ownerMessageId?: boolean
   status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
@@ -617,6 +692,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  ownerMessageId?: boolean
   status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
@@ -637,6 +713,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  ownerMessageId?: boolean
   status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
@@ -657,6 +734,7 @@ export type OrderSelectScalar = {
   buyerName?: boolean
   buyerUsername?: boolean
   buyerTelegramId?: boolean
+  ownerMessageId?: boolean
   status?: boolean
   notificationStatus?: boolean
   notificationError?: boolean
@@ -667,7 +745,7 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "ownerMessageId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 
 export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Order"
@@ -682,6 +760,7 @@ export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     buyerName: string
     buyerUsername: string | null
     buyerTelegramId: string | null
+    ownerMessageId: number | null
     status: string
     notificationStatus: string
     notificationError: string | null
@@ -1122,6 +1201,7 @@ export interface OrderFieldRefs {
   readonly buyerName: Prisma.FieldRef<"Order", 'String'>
   readonly buyerUsername: Prisma.FieldRef<"Order", 'String'>
   readonly buyerTelegramId: Prisma.FieldRef<"Order", 'String'>
+  readonly ownerMessageId: Prisma.FieldRef<"Order", 'Int'>
   readonly status: Prisma.FieldRef<"Order", 'String'>
   readonly notificationStatus: Prisma.FieldRef<"Order", 'String'>
   readonly notificationError: Prisma.FieldRef<"Order", 'String'>

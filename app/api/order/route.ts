@@ -73,7 +73,7 @@ export async function POST(request: Request) {
     `Время оформления: ${new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })}`;
 
   try {
-    await sendTelegramMessage({
+    const ownerMessage = await sendTelegramMessage({
       chatId,
       text: ownerText,
       replyMarkup: {
@@ -89,6 +89,7 @@ export async function POST(request: Request) {
     await prisma.order.update({
       where: { id: order.id },
       data: {
+        ownerMessageId: ownerMessage.result?.message_id ?? null,
         notificationStatus: "sent",
         notificationError: null,
       },

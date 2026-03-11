@@ -80,6 +80,7 @@ export const OrderScalarFieldEnum = {
   buyerName: 'buyerName',
   buyerUsername: 'buyerUsername',
   buyerTelegramId: 'buyerTelegramId',
+  ownerMessageId: 'ownerMessageId',
   status: 'status',
   notificationStatus: 'notificationStatus',
   notificationError: 'notificationError',

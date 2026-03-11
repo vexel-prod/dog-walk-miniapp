@@ -1,6 +1,6 @@
 import { getPrisma } from "@/lib/prisma";
 import { type OrderDecision, verifyDecisionToken } from "@/lib/order-approval";
-import { sendTelegramMessage } from "@/lib/telegram";
+import { editTelegramMessage, sendTelegramMessage } from "@/lib/telegram";
 
 function renderHtml(title: string, description: string) {
   return new Response(
@@ -65,6 +65,31 @@ export async function GET(request: Request) {
       decisionAt: new Date(),
     },
   });
+
+  if (updatedOrder.ownerMessageId && process.env.TELEGRAM_OWNER_CHAT_ID) {
+    const ownerWalkLabel = [updatedOrder.walkDateLabel, updatedOrder.walkPeriodLabel]
+      .filter(Boolean)
+      .join(", ");
+    const ownerDecisionLabel = decision === "approved" ? "Подтверждено" : "Отклонено";
+
+    try {
+      await editTelegramMessage({
+        chatId: process.env.TELEGRAM_OWNER_CHAT_ID,
+        messageId: updatedOrder.ownerMessageId,
+        text:
+          `Заявка обработана\n\n` +
+          `Статус: ${ownerDecisionLabel}\n` +
+          `ID заявки: ${updatedOrder.id}\n` +
+          `Тариф: ${updatedOrder.offerTitle}\n` +
+          `Оплата: ${updatedOrder.offerPrice}\n` +
+          `Когда гулять: ${ownerWalkLabel || "не указано"}\n` +
+          `Покупатель: ${updatedOrder.buyerName}\n` +
+          `Решение принято: ${new Date().toLocaleString("ru-RU", { timeZone: "Europe/Moscow" })}`,
+      });
+    } catch {
+      // If Telegram message edit fails, keep the DB state and buyer notification flow intact.
+    }
+  }
 
   if (updatedOrder.buyerTelegramId) {
     const walkLabel = [updatedOrder.walkDateLabel, updatedOrder.walkPeriodLabel]
