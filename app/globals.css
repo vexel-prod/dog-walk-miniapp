@@ -11,8 +11,8 @@
   --ok: #b7ffb8;
   --error: #ffb5c0;
   --shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
-  --font-sans: "Avenir Next", "Trebuchet MS", "Segoe UI", sans-serif;
-  --font-display: "Georgia", "Times New Roman", serif;
+  --font-sans: 'Avenir Next', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --font-display: 'Georgia', 'Times New Roman', serif;
 }
 
 * {
@@ -90,17 +90,17 @@ button {
   font-size: 0.78rem;
 }
 
+.hero-copy h1 {
+  line-height: 0.94;
+}
 .hero-copy h1,
 .section-head h2 {
   margin: 0;
   font-family: var(--font-display), serif;
-  line-height: 0.94;
-  letter-spacing: -0.03em;
 }
 
 .hero-copy h1 {
-  max-width: 9ch;
-  font-size: clamp(3.6rem, 9vw, 7.5rem);
+  font-size: clamp(3.6rem, 9vw, 5.5rem);
 }
 
 .lede {
@@ -145,7 +145,7 @@ button {
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
-  border-radius: 36px;
+  border-radius: 80px;
   color: #1c1205;
   font-family: var(--font-display), serif;
   font-size: clamp(2.4rem, 5vw, 4rem);
@@ -196,8 +196,7 @@ button {
 }
 
 .section-head h2 {
-  max-width: 12ch;
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
 }
 
 .offers-grid {
@@ -334,6 +333,8 @@ button {
 }
 
 .offer-card {
+  display: flex;
+  flex-direction: column;
   position: relative;
   padding: 20px;
   border-radius: 26px;
@@ -396,6 +397,7 @@ button {
 }
 
 .offer-button {
+  margin-top: auto;
   width: 100%;
   padding: 14px 16px;
   color: var(--text);
