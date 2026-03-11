@@ -212,7 +212,9 @@ export default function Page() {
 
     if (!buyer?.id) {
       setStatus('error')
-      setMessage('Открой приложение через Telegram, чтобы бот мог отправлять уведомления вам обоим.')
+      setMessage(
+        'Открой приложение через Telegram, чтобы бот мог отправлять уведомления вам обоим.',
+      )
       return
     }
 
@@ -272,36 +274,32 @@ export default function Page() {
   }
 
   return (
-    <main className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_26%),radial-gradient(circle_at_85%_20%,_rgba(253,186,116,0.22),_transparent_20%),linear-gradient(180deg,_#07111f_0%,_#140c1e_52%,_#070d18_100%)]">
+    <main className='bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.22),transparent_26%),radial-gradient(circle_at_85%_20%,rgba(253,186,116,0.22),transparent_20%),linear-gradient(180deg,#07111f_0%,#140c1e_52%,#070d18_100%)]'>
       {isStatusModalOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-md">
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-md'>
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="modal-box w-full max-w-lg rounded-[2rem] border border-white/10 bg-[#120f1f]/95 p-0 shadow-2xl"
+            className='modal-box w-full max-w-lg rounded-4xl border border-white/10 bg-[#120f1f]/95 p-0 shadow-2xl'
           >
             <div
               className={`h-2 w-full ${
                 status === 'done'
-                  ? 'bg-gradient-to-r from-emerald-300 via-lime-300 to-teal-400'
+                  ? 'bg-linear-to-r from-emerald-300 via-lime-300 to-teal-400'
                   : status === 'error'
-                    ? 'bg-gradient-to-r from-rose-400 via-orange-300 to-amber-300'
-                    : 'bg-gradient-to-r from-sky-400 via-cyan-300 to-violet-400'
+                    ? 'bg-linear-to-r from-rose-400 via-orange-300 to-amber-300'
+                    : 'bg-linear-to-r from-sky-400 via-cyan-300 to-violet-400'
               }`}
             />
-            <div className="space-y-5 p-6 sm:p-7">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-2">
-                  <div className="badge badge-outline border-white/15 bg-white/5 px-4 py-3 uppercase tracking-[0.24em] text-white/65">
-                    {status === 'sending'
-                      ? 'Оформляю'
-                      : status === 'done'
-                        ? 'Готово'
-                        : 'Ошибка'}
+            <div className='space-y-5 p-6 sm:p-7'>
+              <div className='flex items-start justify-between gap-4'>
+                <div className='space-y-2'>
+                  <div className='badge badge-outline border-white/15 bg-white/5 px-4 py-3 uppercase tracking-[0.24em] text-white/65'>
+                    {status === 'sending' ? 'Оформляю' : status === 'done' ? 'Готово' : 'Ошибка'}
                   </div>
-                  <h3 className="text-3xl font-black text-white">
+                  <h3 className='text-3xl font-black text-white'>
                     {status === 'sending'
                       ? 'Отправляю заявку'
                       : status === 'done'
@@ -310,15 +308,15 @@ export default function Page() {
                   </h3>
                 </div>
                 <button
-                  type="button"
-                  className="btn btn-circle btn-ghost text-white/60 hover:bg-white/10"
+                  type='button'
+                  className='btn btn-circle btn-ghost text-white/60 hover:bg-white/10'
                   onClick={() => {
                     if (status !== 'sending') {
                       setIsStatusModalOpen(false)
                     }
                   }}
                   disabled={status === 'sending'}
-                  aria-label="Закрыть окно статуса"
+                  aria-label='Закрыть окно статуса'
                 >
                   ✕
                 </button>
@@ -337,13 +335,13 @@ export default function Page() {
                   'Связываюсь с базой, Telegram и ботом. Обычно это занимает пару секунд.'}
               </div>
 
-              <div className="flex justify-end">
+              <div className='flex justify-end'>
                 {status === 'sending' ? (
-                  <span className="loading loading-dots loading-md text-warning" />
+                  <span className='loading loading-dots loading-md text-warning' />
                 ) : (
                   <button
-                    type="button"
-                    className="btn btn-warning rounded-full px-8 text-neutral"
+                    type='button'
+                    className='btn btn-warning rounded-full px-8 text-neutral'
                     onClick={() => setIsStatusModalOpen(false)}
                   >
                     Понятно
@@ -355,33 +353,33 @@ export default function Page() {
         </div>
       ) : null}
 
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20" />
-      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6">
+      <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20' />
+      <div className='mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6'>
         <motion.section
           variants={reveal}
-          initial="hidden"
-          animate="visible"
+          initial='hidden'
+          animate='visible'
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="hero min-h-[32rem] overflow-hidden rounded-[2rem] border border-white/10 bg-base-100/8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+          className='hero min-h-[32rem] overflow-hidden rounded-[2rem] border border-white/10 bg-base-100/8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl'
         >
-          <div className="hero-content grid w-full max-w-none gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10">
-            <div className="flex flex-col justify-center gap-6">
-              <div className="badge badge-warning badge-outline w-fit gap-2 px-4 py-4 text-[0.7rem] uppercase tracking-[0.35em]">
+          <div className='hero-content grid w-full max-w-none gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10'>
+            <div className='flex flex-col justify-center gap-6'>
+              <div className='badge badge-warning badge-outline w-fit gap-2 px-4 py-4 text-[0.7rem] uppercase tracking-[0.35em]'>
                 Domestic diplomacy service
               </div>
-              <div className="space-y-4">
-                <h1 className="max-w-[10ch] text-5xl font-black leading-[0.9] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              <div className='space-y-4'>
+                <h1 className='max-w-[10ch] text-5xl font-black leading-[0.9] tracking-tight text-white sm:text-6xl lg:text-7xl'>
                   Кто гуляет с собакой сегодня?
                 </h1>
-                <p className="max-w-2xl text-lg leading-8 text-white/70 sm:text-xl">
+                <p className='max-w-2xl text-lg leading-8 text-white/70 sm:text-xl'>
                   Когда спор уже зашел слишком далеко, оформляй официальную заявку на выгул, выбирай
                   тариф или предлагай свою цену, а решение прилетит прямо в Telegram.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div className='flex flex-wrap gap-3'>
                 <button
-                  type="button"
-                  className="btn btn-warning btn-lg rounded-full px-8 text-base font-semibold text-neutral"
+                  type='button'
+                  className='btn btn-warning btn-lg rounded-full px-8 text-base font-semibold text-neutral'
                   onClick={() => {
                     const priceList = document.getElementById('price-list')
                     priceList?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -389,41 +387,44 @@ export default function Page() {
                 >
                   Оформить покупку прогулки
                 </button>
-                <div className="badge badge-lg rounded-full border-white/10 bg-white/6 px-5 py-5 text-white/70">
-                  Покупатель: <span className="ml-2 font-semibold text-white">{getBuyerLabel(buyer)}</span>
+                <div className='badge badge-lg rounded-full border-white/10 bg-white/6 px-5 py-5 text-white/70'>
+                  Покупатель:{' '}
+                  <span className='ml-2 font-semibold text-white'>{getBuyerLabel(buyer)}</span>
                 </div>
               </div>
             </div>
 
-            <div className="relative flex items-center justify-center">
+            <div className='relative flex items-center justify-center'>
               <motion.div
                 initial={{ opacity: 0, scale: 0.94, rotate: -4 }}
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 transition={{ delay: 0.15, duration: 0.7, ease: 'easeOut' }}
-                className="relative w-full max-w-md"
+                className='relative w-full max-w-md'
               >
-                <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-sky-400/30 via-transparent to-warning/30 blur-3xl" />
-                <div className="card overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/8 shadow-2xl backdrop-blur-2xl">
-                  <figure className="relative aspect-square w-full bg-gradient-to-br from-sky-200 via-cyan-100 to-warning/30 p-4">
+                <div className='absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-sky-400/30 via-transparent to-warning/30 blur-3xl' />
+                <div className='card overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/8 shadow-2xl backdrop-blur-2xl'>
+                  <figure className='relative aspect-square w-full bg-gradient-to-br from-sky-200 via-cyan-100 to-warning/30 p-4'>
                     <Image
-                      src="/dog-walker.png"
-                      alt="LuckyWalker dog"
+                      src='/dog-walker.png'
+                      alt='LuckyWalker dog'
                       fill
-                      className="rounded-[2rem] object-cover"
+                      className='rounded-[2rem] object-cover'
                       priority
                     />
                   </figure>
-                  <div className="card-body gap-4">
-                    <div className="flex items-center justify-between">
+                  <div className='card-body gap-4'>
+                    <div className='flex items-center justify-between'>
                       <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-warning">LuckyWalker</p>
-                        <h2 className="text-3xl font-black text-white">1 прогулка</h2>
+                        <p className='text-xs uppercase tracking-[0.3em] text-warning'>
+                          LuckyWalker
+                        </p>
+                        <h2 className='text-3xl font-black text-white'>1 прогулка</h2>
                       </div>
-                      <div className="badge badge-accent badge-lg rounded-full px-4 py-4 text-accent-content">
+                      <div className='badge badge-accent badge-lg rounded-full px-4 py-4 text-accent-content'>
                         mini app
                       </div>
                     </div>
-                    <p className="text-base leading-7 text-white/70">
+                    <p className='text-base leading-7 text-white/70'>
                       Собака довольна, спор снят с повестки, а условия сделки закреплены официально.
                     </p>
                   </div>
@@ -434,80 +435,81 @@ export default function Page() {
         </motion.section>
 
         <motion.section
-          id="price-list"
+          id='price-list'
           variants={reveal}
-          initial="hidden"
-          animate="visible"
+          initial='hidden'
+          animate='visible'
           transition={{ delay: 0.12, duration: 0.5, ease: 'easeOut' }}
-          className="space-y-6 rounded-[2rem] border border-white/10 bg-base-100/8 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-6"
+          className='space-y-6 rounded-[2rem] border border-white/10 bg-base-100/8 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-6'
         >
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="space-y-3">
-              <div className="badge badge-secondary badge-outline w-fit gap-2 px-4 py-4 text-[0.7rem] uppercase tracking-[0.35em]">
+          <div className='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
+            <div className='space-y-3'>
+              <div className='badge badge-secondary badge-outline w-fit gap-2 px-4 py-4 text-[0.7rem] uppercase tracking-[0.35em]'>
                 Меню оплаты
               </div>
-              <h2 className="max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
+              <h2 className='max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl'>
                 Выбери день, формат прогулки и тариф, который сегодня особенно удобен
               </h2>
             </div>
           </div>
 
-          <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
-            <div className="card border border-white/10 bg-base-100/12 shadow-xl">
-              <div className="card-body gap-6">
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-white">Когда нужна прогулка</h3>
-                  <p className="max-w-2xl text-base leading-7 text-white/65">
-                    Никаких нативных полей ввода даты. Просто выбери готовый день и тип прогулки.
-                  </p>
+          <div className='grid gap-4'>
+            <div className='card border border-white/10 bg-base-100/12 shadow-xl'>
+              <div className='card-body gap-6'>
+                <div className='space-y-2'>
+                  <h3 className='text-2xl font-bold text-white'>Когда нужна прогулка</h3>
                 </div>
 
-                <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/50">День</p>
-                  <div className="dropdown w-full">
+                <div className='space-y-3'>
+                  <p className='text-sm font-semibold uppercase tracking-[0.24em] text-white/50'>
+                    День
+                  </p>
+                  <div className='dropdown w-full'>
                     <button
-                      type="button"
-                      className="input input-xl flex h-auto min-h-20 w-full items-center justify-between rounded-[1.75rem] border-white/10 bg-black/20 px-5 py-4 text-left text-white hover:border-warning/50"
+                      type='button'
+                      className='input input-xl flex h-auto min-h-20 w-full items-center justify-between rounded-[1.75rem] border-white/10 bg-black/20 px-5 py-4 text-left text-white hover:border-warning/50'
                       onClick={() => setIsCalendarOpen(current => !current)}
                     >
                       <div>
-                        <div className="text-xs uppercase tracking-[0.24em] text-white/45">Выбранная дата</div>
-                        <div className="mt-2 text-lg font-semibold text-white">
+                        <div className='text-xs uppercase tracking-[0.24em] text-white/45'>
+                          Выбранная дата
+                        </div>
+                        <div className='mt-2 text-lg font-semibold text-white'>
                           {walkDate ? formatWalkDate(walkDate) : 'Выбери дату прогулки'}
                         </div>
                       </div>
-                      <div className="text-sm text-warning">{isCalendarOpen ? 'Свернуть' : 'Изменить'}</div>
+                      <div className='text-sm text-warning'>
+                        {isCalendarOpen ? 'Свернуть' : 'Изменить'}
+                      </div>
                     </button>
 
                     {isCalendarOpen && monthCursor ? (
-                      <div className="mt-3 w-full rounded-[1.75rem] border border-white/10 bg-[#120f1f]/95 p-4 shadow-2xl backdrop-blur-xl">
-                        <div className="mb-4 flex items-center justify-between gap-3">
+                      <div className='mt-3 w-full rounded-[1.75rem] border border-white/10 bg-[#120f1f]/95 p-4 shadow-2xl backdrop-blur-xl'>
+                        <div className='mb-4 flex items-center justify-between gap-3'>
                           <button
-                            type="button"
-                            className="btn btn-ghost btn-sm rounded-full text-white/70"
+                            type='button'
+                            className='btn btn-ghost btn-sm rounded-full text-white/70'
                             onClick={() =>
-                              setMonthCursor(
-                                current =>
-                                  current
-                                    ? new Date(current.getFullYear(), current.getMonth() - 1, 1)
-                                    : current,
+                              setMonthCursor(current =>
+                                current
+                                  ? new Date(current.getFullYear(), current.getMonth() - 1, 1)
+                                  : current,
                               )
                             }
                           >
                             ←
                           </button>
-                          <div className="text-sm font-semibold uppercase tracking-[0.24em] text-white/70">
+                          <div className='text-sm font-semibold uppercase tracking-[0.24em] text-white/70'>
                             {getMonthLabel(monthCursor)}
                           </div>
                           <button
-                            type="button"
-                            className="btn btn-ghost btn-sm rounded-full text-white/70"
+                            type='button'
+                            className='btn btn-ghost btn-sm rounded-full text-white/70'
                             onClick={() =>
-                              setMonthCursor(
-                                current =>
-                                  current
-                                    ? new Date(current.getFullYear(), current.getMonth() + 1, 1)
-                                    : current,
+                              setMonthCursor(current =>
+                                current
+                                  ? new Date(current.getFullYear(), current.getMonth() + 1, 1)
+                                  : current,
                               )
                             }
                           >
@@ -515,15 +517,18 @@ export default function Page() {
                           </button>
                         </div>
 
-                        <div className="grid grid-cols-7 gap-2 text-center text-xs uppercase tracking-[0.24em] text-white/35">
+                        <div className='grid grid-cols-7 gap-2 text-center text-xs uppercase tracking-[0.24em] text-white/35'>
                           {calendarWeekdays.map(day => (
-                            <div key={day} className="py-2">
+                            <div
+                              key={day}
+                              className='py-2'
+                            >
                               {day}
                             </div>
                           ))}
                         </div>
 
-                        <div className="grid grid-cols-7 gap-2">
+                        <div className='grid grid-cols-7 gap-2'>
                           {calendarDays.map(({ date, currentMonth }) => {
                             const iso = toIsoDate(date)
                             const selected = iso === walkDate
@@ -532,7 +537,7 @@ export default function Page() {
                             return (
                               <button
                                 key={iso}
-                                type="button"
+                                type='button'
                                 onClick={() => {
                                   setWalkDate(iso)
                                   setIsCalendarOpen(false)
@@ -555,13 +560,15 @@ export default function Page() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/50">Тип прогулки</p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    {walkPeriods.map((period) => (
+                <div className='space-y-3'>
+                  <p className='text-sm font-semibold uppercase tracking-[0.24em] text-white/50'>
+                    Тип прогулки
+                  </p>
+                  <div className='grid gap-3 sm:grid-cols-2'>
+                    {walkPeriods.map(period => (
                       <button
                         key={period}
-                        type="button"
+                        type='button'
                         onClick={() => setWalkPeriod(period)}
                         className={`rounded-[1.5rem] border px-5 py-5 text-left transition ${
                           walkPeriod === period
@@ -569,8 +576,8 @@ export default function Page() {
                             : 'border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/10'
                         }`}
                       >
-                        <div className="text-lg font-bold">{period}</div>
-                        <div className="mt-1 text-sm opacity-75">
+                        <div className='text-lg font-bold'>{period}</div>
+                        <div className='mt-1 text-sm opacity-75'>
                           {period === 'Утренняя'
                             ? 'Для ранних договоренностей и собаки с планами.'
                             : 'Когда день уже всех утомил и пора решить вопрос красиво.'}
@@ -582,7 +589,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="card overflow-hidden border border-sky-300/20 bg-gradient-to-br from-sky-500/15 via-base-100/10 to-warning/10 shadow-xl">
+            {/* <div className="card overflow-hidden border border-sky-300/20 bg-gradient-to-br from-sky-500/15 via-base-100/10 to-warning/10 shadow-xl">
               <div className="card-body justify-between gap-5">
                 <div className="space-y-3">
                   <div className="badge badge-info badge-outline px-4 py-3">Выбрано сейчас</div>
@@ -597,28 +604,32 @@ export default function Page() {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className='grid gap-4 lg:grid-cols-3'>
             {offers.map((offer, index) => (
               <motion.article
                 key={offer.id}
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 * index, duration: 0.4, ease: 'easeOut' }}
-                className="card overflow-hidden border border-white/10 bg-base-100/10 shadow-xl"
+                className='card overflow-hidden border border-white/10 bg-base-100/10 shadow-xl'
               >
                 <div className={`h-2 w-full bg-gradient-to-r ${offer.accent}`} />
-                <div className="card-body gap-5">
-                  <div className="space-y-3">
-                    <p className="text-xs uppercase tracking-[0.3em] text-white/50">{offer.title}</p>
-                    <h3 className="text-4xl font-black leading-none text-white">{offer.price}</h3>
-                    <p className="min-h-24 text-base leading-8 text-white/70">{offer.description}</p>
+                <div className='card-body gap-5'>
+                  <div className='space-y-3'>
+                    <p className='text-xs uppercase tracking-[0.3em] text-white/50'>
+                      {offer.title}
+                    </p>
+                    <h3 className='text-4xl font-black leading-none text-white'>{offer.price}</h3>
+                    <p className='min-h-24 text-base leading-8 text-white/70'>
+                      {offer.description}
+                    </p>
                   </div>
                   <button
-                    type="button"
-                    className="mt-auto btn btn-outline btn-lg rounded-full border-white/15 bg-white/5 text-white hover:border-warning hover:bg-warning hover:text-neutral"
+                    type='button'
+                    className='mt-auto btn btn-outline btn-lg rounded-full border-white/15 bg-white/5 text-white hover:border-warning hover:bg-warning hover:text-neutral'
                     onClick={() => void submitOrder(offer)}
                     disabled={status === 'sending'}
                   >
@@ -633,30 +644,28 @@ export default function Page() {
 
           <motion.section
             variants={reveal}
-            initial="hidden"
-            animate="visible"
+            initial='hidden'
+            animate='visible'
             transition={{ delay: 0.2, duration: 0.45, ease: 'easeOut' }}
-            className="grid gap-4 lg:grid-cols-1"
+            className='grid gap-4 lg:grid-cols-1'
           >
-            <div className="card border border-emerald-300/15 bg-gradient-to-br from-emerald-400/10 via-base-100/10 to-teal-400/10 shadow-xl">
-              <div className="card-body gap-5">
-                <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.3em] text-emerald-300">Свой вариант</p>
-                  <h3 className="text-3xl font-black text-white">Предложить кастомную оплату</h3>
-                  <p className="text-base leading-7 text-white/70">
-                    Если стандартные тарифы не подходят, сформулируй свой вариант. Он уйдет отдельной
-                    заявкой, а решение все равно останется за партнером.
+            <div className='card border border-emerald-300/15 bg-gradient-to-br from-emerald-400/10 via-base-100/10 to-teal-400/10 shadow-xl'>
+              <div className='card-body gap-5'>
+                <div className='space-y-2'>
+                  <p className='text-xs uppercase tracking-[0.3em] text-emerald-300'>
+                    Свой вариант
                   </p>
+                  <h3 className='text-3xl font-black text-white'>Предложить кастомную оплату</h3>
                 </div>
                 <textarea
-                  className="textarea h-36 rounded-[1.5rem] border-white/10 bg-black/20 text-base text-white placeholder:text-white/35 focus:border-emerald-300"
-                  placeholder="Например: я приготовлю ужин, сама вымою лапы после прогулки и не трогаю тебя весь вечер"
+                  className='textarea h-36 rounded-[1.5rem] border-white/10 bg-black/20 text-base text-white placeholder:text-white/35 focus:border-emerald-300'
+                  placeholder='Например: я приготовлю ужин, сама вымою лапы после прогулки и не трогаю тебя весь вечер'
                   value={customPayment}
                   onChange={event => setCustomPayment(event.target.value)}
                 />
                 <button
-                  type="button"
-                  className="btn btn-success btn-lg rounded-full text-base text-neutral"
+                  type='button'
+                  className='btn btn-success btn-lg rounded-full text-base text-neutral'
                   onClick={() => void submitCustomPayment()}
                   disabled={status === 'sending'}
                 >
