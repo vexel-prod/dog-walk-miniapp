@@ -56,6 +56,19 @@ const offers: Offer[] = [
   },
 ];
 
+const timeOptions = [
+  "07:00",
+  "08:00",
+  "09:00",
+  "10:00",
+  "12:00",
+  "14:00",
+  "16:00",
+  "18:00",
+  "20:00",
+  "22:00",
+];
+
 function getBuyerLabel(user?: TelegramUser) {
   if (!user) return "Анонимная заказчица";
   const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ").trim();
@@ -109,7 +122,18 @@ function getDefaultWalkSlot() {
   now.setHours(now.getHours() + 1, 0, 0, 0);
   const timezoneOffset = now.getTimezoneOffset();
   const localTime = new Date(now.getTime() - timezoneOffset * 60_000);
-  return localTime.toISOString().slice(0, 16);
+  return {
+    date: localTime.toISOString().slice(0, 10),
+    time: localTime.toISOString().slice(11, 16),
+  };
+}
+
+function combineWalkSlot(date: string, time: string) {
+  if (!date || !time) {
+    return "";
+  }
+
+  return `${date}T${time}`;
 }
 
 function formatWalkSlot(value: string) {
@@ -133,7 +157,8 @@ export default function Page() {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
   const [buyer, setBuyer] = useState<TelegramUser | undefined>();
-  const [walkAt, setWalkAt] = useState(getDefaultWalkSlot);
+  const [walkDate, setWalkDate] = useState(() => getDefaultWalkSlot().date);
+  const [walkTime, setWalkTime] = useState(() => getDefaultWalkSlot().time);
 
   useEffect(() => {
     const telegram = (window as TelegramWindow).Telegram?.WebApp;
@@ -143,6 +168,8 @@ export default function Page() {
   }, []);
 
   async function submitOrder(offer: Offer) {
+    const walkAt = combineWalkSlot(walkDate, walkTime);
+
     if (!walkAt) {
       setStatus("error");
       setMessage("Сначала выбери дату и время прогулки.");
@@ -229,17 +256,53 @@ export default function Page() {
         <div className="schedule-card">
           <div>
             <p className="schedule-label">Когда нужна прогулка</p>
-            <p className="schedule-hint">Выберите удобные дату и время, чтобы заявка пришла уже с конкретикой.</p>
+            <p className="schedule-hint">
+              Выберите дату и ткните в удобное время. Так намного удобнее, чем системный picker
+              внутри Telegram.
+            </p>
           </div>
-          <label className="schedule-input-wrap">
-            <span>Дата и время</span>
-            <input
-              className="schedule-input"
-              type="datetime-local"
-              value={walkAt}
-              onChange={(event) => setWalkAt(event.target.value)}
-            />
-          </label>
+          <div className="schedule-controls">
+            <label className="schedule-input-wrap">
+              <span>Дата</span>
+              <input
+                className="schedule-input"
+                type="date"
+                value={walkDate}
+                onChange={(event) => setWalkDate(event.target.value)}
+              />
+            </label>
+
+            <div className="schedule-input-wrap">
+              <span>Время</span>
+              <div className="time-grid" role="list" aria-label="Выбор времени">
+                {timeOptions.map((time) => (
+                  <button
+                    key={time}
+                    type="button"
+                    className={`time-chip ${walkTime === time ? "active" : ""}`}
+                    onClick={() => setWalkTime(time)}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <label className="schedule-input-wrap">
+              <span>Или выбери точное время</span>
+              <select
+                className="schedule-input schedule-select"
+                value={walkTime}
+                onChange={(event) => setWalkTime(event.target.value)}
+              >
+                {timeOptions.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
 
         <div className="offers-grid">

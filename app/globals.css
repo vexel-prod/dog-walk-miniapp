@@ -256,6 +256,11 @@ button {
   font-size: 0.9rem;
 }
 
+.schedule-controls {
+  display: grid;
+  gap: 14px;
+}
+
 .schedule-input {
   width: 100%;
   padding: 14px 16px;
@@ -270,6 +275,31 @@ button {
   filter: invert(1);
   opacity: 0.85;
   cursor: pointer;
+}
+
+.schedule-select {
+  appearance: none;
+}
+
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.time-chip {
+  padding: 12px 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font: inherit;
+}
+
+.time-chip.active {
+  color: #201505;
+  background: linear-gradient(135deg, var(--highlight-2), var(--highlight));
+  border-color: transparent;
 }
 
 .offer-card {
@@ -388,6 +418,10 @@ button {
 
   .schedule-card {
     grid-template-columns: 1fr;
+  }
+
+  .time-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
