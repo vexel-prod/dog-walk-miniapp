@@ -1,4 +1,5 @@
 import { getPrisma } from "@/lib/prisma";
+import { formatOrderNumber } from "@/lib/order-format";
 import { createDecisionToken } from "@/lib/order-approval";
 import { sendTelegramMessage } from "@/lib/telegram";
 import { NextResponse } from "next/server";
@@ -62,10 +63,11 @@ export async function POST(request: Request) {
   const rejectToken = createDecisionToken(order.id, "rejected");
   const approveUrl = `${origin}/api/order/decision?orderId=${order.id}&decision=approved&token=${approveToken}`;
   const rejectUrl = `${origin}/api/order/decision?orderId=${order.id}&decision=rejected&token=${rejectToken}`;
+  const publicOrderNumber = formatOrderNumber(order.orderNumber);
 
   const ownerText =
     `Новая заявка на прогулку с собакой\n\n` +
-    `ID заявки: ${order.id}\n` +
+    `Заявка: ${publicOrderNumber}\n` +
     `Тариф: ${body.offerTitle}\n` +
     `Оплата: ${body.offerPrice}\n` +
     `Когда гулять: ${body.walkDate}, ${body.walkPeriod}\n` +
@@ -114,6 +116,7 @@ export async function POST(request: Request) {
       chatId: body.buyerTelegramId,
       text:
         `Твоя заявка создана и ждет решения\n\n` +
+        `Номер заявки: ${publicOrderNumber}\n` +
         `Прогулка: ${body.walkDate}, ${body.walkPeriod}\n` +
         `Оплата: ${body.offerPrice}\n\n` +
         `Когда будет решение, бот отдельно напишет результат.`,
@@ -141,5 +144,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, orderId: order.id });
+  return NextResponse.json({ ok: true, orderId: order.id, orderNumber: publicOrderNumber });
 }

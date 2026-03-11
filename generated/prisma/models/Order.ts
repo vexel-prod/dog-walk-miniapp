@@ -27,15 +27,18 @@ export type AggregateOrder = {
 }
 
 export type OrderAvgAggregateOutputType = {
+  orderNumber: number | null
   ownerMessageId: number | null
 }
 
 export type OrderSumAggregateOutputType = {
+  orderNumber: number | null
   ownerMessageId: number | null
 }
 
 export type OrderMinAggregateOutputType = {
   id: string | null
+  orderNumber: number | null
   offerId: string | null
   offerTitle: string | null
   offerPrice: string | null
@@ -57,6 +60,7 @@ export type OrderMinAggregateOutputType = {
 
 export type OrderMaxAggregateOutputType = {
   id: string | null
+  orderNumber: number | null
   offerId: string | null
   offerTitle: string | null
   offerPrice: string | null
@@ -78,6 +82,7 @@ export type OrderMaxAggregateOutputType = {
 
 export type OrderCountAggregateOutputType = {
   id: number
+  orderNumber: number
   offerId: number
   offerTitle: number
   offerPrice: number
@@ -100,15 +105,18 @@ export type OrderCountAggregateOutputType = {
 
 
 export type OrderAvgAggregateInputType = {
+  orderNumber?: true
   ownerMessageId?: true
 }
 
 export type OrderSumAggregateInputType = {
+  orderNumber?: true
   ownerMessageId?: true
 }
 
 export type OrderMinAggregateInputType = {
   id?: true
+  orderNumber?: true
   offerId?: true
   offerTitle?: true
   offerPrice?: true
@@ -130,6 +138,7 @@ export type OrderMinAggregateInputType = {
 
 export type OrderMaxAggregateInputType = {
   id?: true
+  orderNumber?: true
   offerId?: true
   offerTitle?: true
   offerPrice?: true
@@ -151,6 +160,7 @@ export type OrderMaxAggregateInputType = {
 
 export type OrderCountAggregateInputType = {
   id?: true
+  orderNumber?: true
   offerId?: true
   offerTitle?: true
   offerPrice?: true
@@ -259,6 +269,7 @@ export type OrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type OrderGroupByOutputType = {
   id: string
+  orderNumber: number
   offerId: string
   offerTitle: string
   offerPrice: string
@@ -303,6 +314,7 @@ export type OrderWhereInput = {
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   id?: Prisma.StringFilter<"Order"> | string
+  orderNumber?: Prisma.IntFilter<"Order"> | number
   offerId?: Prisma.StringFilter<"Order"> | string
   offerTitle?: Prisma.StringFilter<"Order"> | string
   offerPrice?: Prisma.StringFilter<"Order"> | string
@@ -324,6 +336,7 @@ export type OrderWhereInput = {
 
 export type OrderOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
@@ -345,6 +358,7 @@ export type OrderOrderByWithRelationInput = {
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  orderNumber?: number
   AND?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
@@ -365,10 +379,11 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   decisionAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
-}, "id">
+}, "id" | "orderNumber">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
@@ -398,6 +413,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   OR?: Prisma.OrderScalarWhereWithAggregatesInput[]
   NOT?: Prisma.OrderScalarWhereWithAggregatesInput | Prisma.OrderScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Order"> | string
+  orderNumber?: Prisma.IntWithAggregatesFilter<"Order"> | number
   offerId?: Prisma.StringWithAggregatesFilter<"Order"> | string
   offerTitle?: Prisma.StringWithAggregatesFilter<"Order"> | string
   offerPrice?: Prisma.StringWithAggregatesFilter<"Order"> | string
@@ -419,6 +435,7 @@ export type OrderScalarWhereWithAggregatesInput = {
 
 export type OrderCreateInput = {
   id?: string
+  orderNumber?: number
   offerId: string
   offerTitle: string
   offerPrice: string
@@ -440,6 +457,7 @@ export type OrderCreateInput = {
 
 export type OrderUncheckedCreateInput = {
   id?: string
+  orderNumber?: number
   offerId: string
   offerTitle: string
   offerPrice: string
@@ -482,6 +500,7 @@ export type OrderUpdateInput = {
 
 export type OrderUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
   offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
@@ -503,6 +522,7 @@ export type OrderUncheckedUpdateInput = {
 
 export type OrderCreateManyInput = {
   id?: string
+  orderNumber?: number
   offerId: string
   offerTitle: string
   offerPrice: string
@@ -545,6 +565,7 @@ export type OrderUpdateManyMutationInput = {
 
 export type OrderUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
   offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
@@ -566,6 +587,7 @@ export type OrderUncheckedUpdateManyInput = {
 
 export type OrderCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
@@ -586,11 +608,13 @@ export type OrderCountOrderByAggregateInput = {
 }
 
 export type OrderAvgOrderByAggregateInput = {
+  orderNumber?: Prisma.SortOrder
   ownerMessageId?: Prisma.SortOrder
 }
 
 export type OrderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
@@ -612,6 +636,7 @@ export type OrderMaxOrderByAggregateInput = {
 
 export type OrderMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
   offerPrice?: Prisma.SortOrder
@@ -632,6 +657,7 @@ export type OrderMinOrderByAggregateInput = {
 }
 
 export type OrderSumOrderByAggregateInput = {
+  orderNumber?: Prisma.SortOrder
   ownerMessageId?: Prisma.SortOrder
 }
 
@@ -659,10 +685,19 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 
 
 export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
@@ -684,6 +719,7 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 
 export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
@@ -705,6 +741,7 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
@@ -726,6 +763,7 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 
 export type OrderSelectScalar = {
   id?: boolean
+  orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
   offerPrice?: boolean
@@ -745,13 +783,14 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "ownerMessageId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "ownerMessageId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
 
 export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Order"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    orderNumber: number
     offerId: string
     offerTitle: string
     offerPrice: string
@@ -1193,6 +1232,7 @@ export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface OrderFieldRefs {
   readonly id: Prisma.FieldRef<"Order", 'String'>
+  readonly orderNumber: Prisma.FieldRef<"Order", 'Int'>
   readonly offerId: Prisma.FieldRef<"Order", 'String'>
   readonly offerTitle: Prisma.FieldRef<"Order", 'String'>
   readonly offerPrice: Prisma.FieldRef<"Order", 'String'>

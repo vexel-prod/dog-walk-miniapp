@@ -1,4 +1,5 @@
 import { getPrisma } from "@/lib/prisma";
+import { formatOrderNumber } from "@/lib/order-format";
 import { type OrderDecision, verifyDecisionToken } from "@/lib/order-approval";
 import { editTelegramMessage, sendTelegramMessage } from "@/lib/telegram";
 
@@ -71,6 +72,7 @@ export async function GET(request: Request) {
       .filter(Boolean)
       .join(", ");
     const ownerDecisionLabel = decision === "approved" ? "Подтверждено" : "Отклонено";
+    const publicOrderNumber = formatOrderNumber(updatedOrder.orderNumber);
 
     try {
       await editTelegramMessage({
@@ -79,7 +81,7 @@ export async function GET(request: Request) {
         text:
           `Заявка обработана\n\n` +
           `Статус: ${ownerDecisionLabel}\n` +
-          `ID заявки: ${updatedOrder.id}\n` +
+          `Заявка: ${publicOrderNumber}\n` +
           `Тариф: ${updatedOrder.offerTitle}\n` +
           `Оплата: ${updatedOrder.offerPrice}\n` +
           `Когда гулять: ${ownerWalkLabel || "не указано"}\n` +
@@ -95,10 +97,11 @@ export async function GET(request: Request) {
     const walkLabel = [updatedOrder.walkDateLabel, updatedOrder.walkPeriodLabel]
       .filter(Boolean)
       .join(", ");
+    const publicOrderNumber = formatOrderNumber(updatedOrder.orderNumber);
     const buyerText =
       decision === "approved"
-        ? `Твоя заявка подтверждена\n\nПрогулка: ${walkLabel || "время не указано"}\nОплата: ${updatedOrder.offerPrice}`
-        : `Твоя заявка отклонена\n\nПрогулка: ${walkLabel || "время не указано"}\nПредложенная оплата: ${updatedOrder.offerPrice}`;
+        ? `Твоя заявка подтверждена\n\nНомер заявки: ${publicOrderNumber}\nПрогулка: ${walkLabel || "время не указано"}\nОплата: ${updatedOrder.offerPrice}`
+        : `Твоя заявка отклонена\n\nНомер заявки: ${publicOrderNumber}\nПрогулка: ${walkLabel || "время не указано"}\nПредложенная оплата: ${updatedOrder.offerPrice}`;
 
     try {
       await sendTelegramMessage({

@@ -10,6 +10,7 @@ datasource db {
 
 model Order {
   id                 String   @id @default(cuid())
+  orderNumber        Int      @unique @default(autoincrement())
   offerId            String
   offerTitle         String
   offerPrice         String
