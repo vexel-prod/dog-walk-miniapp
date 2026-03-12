@@ -38,6 +38,7 @@ export type OrderSumAggregateOutputType = {
 
 export type OrderMinAggregateOutputType = {
   id: string | null
+  householdId: string | null
   orderNumber: number | null
   offerId: string | null
   offerTitle: string | null
@@ -60,6 +61,7 @@ export type OrderMinAggregateOutputType = {
 
 export type OrderMaxAggregateOutputType = {
   id: string | null
+  householdId: string | null
   orderNumber: number | null
   offerId: string | null
   offerTitle: string | null
@@ -82,6 +84,7 @@ export type OrderMaxAggregateOutputType = {
 
 export type OrderCountAggregateOutputType = {
   id: number
+  householdId: number
   orderNumber: number
   offerId: number
   offerTitle: number
@@ -116,6 +119,7 @@ export type OrderSumAggregateInputType = {
 
 export type OrderMinAggregateInputType = {
   id?: true
+  householdId?: true
   orderNumber?: true
   offerId?: true
   offerTitle?: true
@@ -138,6 +142,7 @@ export type OrderMinAggregateInputType = {
 
 export type OrderMaxAggregateInputType = {
   id?: true
+  householdId?: true
   orderNumber?: true
   offerId?: true
   offerTitle?: true
@@ -160,6 +165,7 @@ export type OrderMaxAggregateInputType = {
 
 export type OrderCountAggregateInputType = {
   id?: true
+  householdId?: true
   orderNumber?: true
   offerId?: true
   offerTitle?: true
@@ -269,6 +275,7 @@ export type OrderGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type OrderGroupByOutputType = {
   id: string
+  householdId: string
   orderNumber: number
   offerId: string
   offerTitle: string
@@ -314,6 +321,7 @@ export type OrderWhereInput = {
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   id?: Prisma.StringFilter<"Order"> | string
+  householdId?: Prisma.StringFilter<"Order"> | string
   orderNumber?: Prisma.IntFilter<"Order"> | number
   offerId?: Prisma.StringFilter<"Order"> | string
   offerTitle?: Prisma.StringFilter<"Order"> | string
@@ -332,10 +340,12 @@ export type OrderWhereInput = {
   decisionAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  household?: Prisma.XOR<Prisma.HouseholdScalarRelationFilter, Prisma.HouseholdWhereInput>
 }
 
 export type OrderOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
@@ -354,6 +364,7 @@ export type OrderOrderByWithRelationInput = {
   decisionAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  household?: Prisma.HouseholdOrderByWithRelationInput
 }
 
 export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -362,6 +373,7 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
   OR?: Prisma.OrderWhereInput[]
   NOT?: Prisma.OrderWhereInput | Prisma.OrderWhereInput[]
+  householdId?: Prisma.StringFilter<"Order"> | string
   offerId?: Prisma.StringFilter<"Order"> | string
   offerTitle?: Prisma.StringFilter<"Order"> | string
   offerPrice?: Prisma.StringFilter<"Order"> | string
@@ -379,10 +391,12 @@ export type OrderWhereUniqueInput = Prisma.AtLeast<{
   decisionAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  household?: Prisma.XOR<Prisma.HouseholdScalarRelationFilter, Prisma.HouseholdWhereInput>
 }, "id" | "orderNumber">
 
 export type OrderOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
@@ -413,6 +427,7 @@ export type OrderScalarWhereWithAggregatesInput = {
   OR?: Prisma.OrderScalarWhereWithAggregatesInput[]
   NOT?: Prisma.OrderScalarWhereWithAggregatesInput | Prisma.OrderScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Order"> | string
+  householdId?: Prisma.StringWithAggregatesFilter<"Order"> | string
   orderNumber?: Prisma.IntWithAggregatesFilter<"Order"> | number
   offerId?: Prisma.StringWithAggregatesFilter<"Order"> | string
   offerTitle?: Prisma.StringWithAggregatesFilter<"Order"> | string
@@ -453,10 +468,12 @@ export type OrderCreateInput = {
   decisionAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  household?: Prisma.HouseholdCreateNestedOneWithoutOrdersInput
 }
 
 export type OrderUncheckedCreateInput = {
   id?: string
+  householdId?: string
   orderNumber?: number
   offerId: string
   offerTitle: string
@@ -496,10 +513,12 @@ export type OrderUpdateInput = {
   decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  household?: Prisma.HouseholdUpdateOneRequiredWithoutOrdersNestedInput
 }
 
 export type OrderUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
@@ -522,6 +541,7 @@ export type OrderUncheckedUpdateInput = {
 
 export type OrderCreateManyInput = {
   id?: string
+  householdId?: string
   orderNumber?: number
   offerId: string
   offerTitle: string
@@ -565,6 +585,7 @@ export type OrderUpdateManyMutationInput = {
 
 export type OrderUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  householdId?: Prisma.StringFieldUpdateOperationsInput | string
   orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
   offerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
@@ -585,8 +606,19 @@ export type OrderUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type OrderListRelationFilter = {
+  every?: Prisma.OrderWhereInput
+  some?: Prisma.OrderWhereInput
+  none?: Prisma.OrderWhereInput
+}
+
+export type OrderOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type OrderCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
@@ -614,6 +646,7 @@ export type OrderAvgOrderByAggregateInput = {
 
 export type OrderMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
@@ -636,6 +669,7 @@ export type OrderMaxOrderByAggregateInput = {
 
 export type OrderMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  householdId?: Prisma.SortOrder
   orderNumber?: Prisma.SortOrder
   offerId?: Prisma.SortOrder
   offerTitle?: Prisma.SortOrder
@@ -661,12 +695,46 @@ export type OrderSumOrderByAggregateInput = {
   ownerMessageId?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type OrderCreateNestedManyWithoutHouseholdInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutHouseholdInput, Prisma.OrderUncheckedCreateWithoutHouseholdInput> | Prisma.OrderCreateWithoutHouseholdInput[] | Prisma.OrderUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutHouseholdInput | Prisma.OrderCreateOrConnectWithoutHouseholdInput[]
+  createMany?: Prisma.OrderCreateManyHouseholdInputEnvelope
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type OrderUncheckedCreateNestedManyWithoutHouseholdInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutHouseholdInput, Prisma.OrderUncheckedCreateWithoutHouseholdInput> | Prisma.OrderCreateWithoutHouseholdInput[] | Prisma.OrderUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutHouseholdInput | Prisma.OrderCreateOrConnectWithoutHouseholdInput[]
+  createMany?: Prisma.OrderCreateManyHouseholdInputEnvelope
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+}
+
+export type OrderUpdateManyWithoutHouseholdNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutHouseholdInput, Prisma.OrderUncheckedCreateWithoutHouseholdInput> | Prisma.OrderCreateWithoutHouseholdInput[] | Prisma.OrderUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutHouseholdInput | Prisma.OrderCreateOrConnectWithoutHouseholdInput[]
+  upsert?: Prisma.OrderUpsertWithWhereUniqueWithoutHouseholdInput | Prisma.OrderUpsertWithWhereUniqueWithoutHouseholdInput[]
+  createMany?: Prisma.OrderCreateManyHouseholdInputEnvelope
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  update?: Prisma.OrderUpdateWithWhereUniqueWithoutHouseholdInput | Prisma.OrderUpdateWithWhereUniqueWithoutHouseholdInput[]
+  updateMany?: Prisma.OrderUpdateManyWithWhereWithoutHouseholdInput | Prisma.OrderUpdateManyWithWhereWithoutHouseholdInput[]
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+}
+
+export type OrderUncheckedUpdateManyWithoutHouseholdNestedInput = {
+  create?: Prisma.XOR<Prisma.OrderCreateWithoutHouseholdInput, Prisma.OrderUncheckedCreateWithoutHouseholdInput> | Prisma.OrderCreateWithoutHouseholdInput[] | Prisma.OrderUncheckedCreateWithoutHouseholdInput[]
+  connectOrCreate?: Prisma.OrderCreateOrConnectWithoutHouseholdInput | Prisma.OrderCreateOrConnectWithoutHouseholdInput[]
+  upsert?: Prisma.OrderUpsertWithWhereUniqueWithoutHouseholdInput | Prisma.OrderUpsertWithWhereUniqueWithoutHouseholdInput[]
+  createMany?: Prisma.OrderCreateManyHouseholdInputEnvelope
+  set?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  disconnect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  delete?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  connect?: Prisma.OrderWhereUniqueInput | Prisma.OrderWhereUniqueInput[]
+  update?: Prisma.OrderUpdateWithWhereUniqueWithoutHouseholdInput | Prisma.OrderUpdateWithWhereUniqueWithoutHouseholdInput[]
+  updateMany?: Prisma.OrderUpdateManyWithWhereWithoutHouseholdInput | Prisma.OrderUpdateManyWithWhereWithoutHouseholdInput[]
+  deleteMany?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
 }
 
 export type NullableIntFieldUpdateOperationsInput = {
@@ -681,10 +749,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -693,10 +757,194 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type OrderCreateWithoutHouseholdInput = {
+  id?: string
+  orderNumber?: number
+  offerId: string
+  offerTitle: string
+  offerPrice: string
+  walkDateLabel?: string | null
+  walkPeriodLabel?: string | null
+  buyerName: string
+  buyerUsername?: string | null
+  buyerTelegramId?: string | null
+  ownerMessageId?: number | null
+  status?: string
+  notificationStatus?: string
+  notificationError?: string | null
+  buyerNotificationStatus?: string
+  buyerNotificationError?: string | null
+  decisionAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type OrderUncheckedCreateWithoutHouseholdInput = {
+  id?: string
+  orderNumber?: number
+  offerId: string
+  offerTitle: string
+  offerPrice: string
+  walkDateLabel?: string | null
+  walkPeriodLabel?: string | null
+  buyerName: string
+  buyerUsername?: string | null
+  buyerTelegramId?: string | null
+  ownerMessageId?: number | null
+  status?: string
+  notificationStatus?: string
+  notificationError?: string | null
+  buyerNotificationStatus?: string
+  buyerNotificationError?: string | null
+  decisionAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type OrderCreateOrConnectWithoutHouseholdInput = {
+  where: Prisma.OrderWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrderCreateWithoutHouseholdInput, Prisma.OrderUncheckedCreateWithoutHouseholdInput>
+}
+
+export type OrderCreateManyHouseholdInputEnvelope = {
+  data: Prisma.OrderCreateManyHouseholdInput | Prisma.OrderCreateManyHouseholdInput[]
+  skipDuplicates?: boolean
+}
+
+export type OrderUpsertWithWhereUniqueWithoutHouseholdInput = {
+  where: Prisma.OrderWhereUniqueInput
+  update: Prisma.XOR<Prisma.OrderUpdateWithoutHouseholdInput, Prisma.OrderUncheckedUpdateWithoutHouseholdInput>
+  create: Prisma.XOR<Prisma.OrderCreateWithoutHouseholdInput, Prisma.OrderUncheckedCreateWithoutHouseholdInput>
+}
+
+export type OrderUpdateWithWhereUniqueWithoutHouseholdInput = {
+  where: Prisma.OrderWhereUniqueInput
+  data: Prisma.XOR<Prisma.OrderUpdateWithoutHouseholdInput, Prisma.OrderUncheckedUpdateWithoutHouseholdInput>
+}
+
+export type OrderUpdateManyWithWhereWithoutHouseholdInput = {
+  where: Prisma.OrderScalarWhereInput
+  data: Prisma.XOR<Prisma.OrderUpdateManyMutationInput, Prisma.OrderUncheckedUpdateManyWithoutHouseholdInput>
+}
+
+export type OrderScalarWhereInput = {
+  AND?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+  OR?: Prisma.OrderScalarWhereInput[]
+  NOT?: Prisma.OrderScalarWhereInput | Prisma.OrderScalarWhereInput[]
+  id?: Prisma.StringFilter<"Order"> | string
+  householdId?: Prisma.StringFilter<"Order"> | string
+  orderNumber?: Prisma.IntFilter<"Order"> | number
+  offerId?: Prisma.StringFilter<"Order"> | string
+  offerTitle?: Prisma.StringFilter<"Order"> | string
+  offerPrice?: Prisma.StringFilter<"Order"> | string
+  walkDateLabel?: Prisma.StringNullableFilter<"Order"> | string | null
+  walkPeriodLabel?: Prisma.StringNullableFilter<"Order"> | string | null
+  buyerName?: Prisma.StringFilter<"Order"> | string
+  buyerUsername?: Prisma.StringNullableFilter<"Order"> | string | null
+  buyerTelegramId?: Prisma.StringNullableFilter<"Order"> | string | null
+  ownerMessageId?: Prisma.IntNullableFilter<"Order"> | number | null
+  status?: Prisma.StringFilter<"Order"> | string
+  notificationStatus?: Prisma.StringFilter<"Order"> | string
+  notificationError?: Prisma.StringNullableFilter<"Order"> | string | null
+  buyerNotificationStatus?: Prisma.StringFilter<"Order"> | string
+  buyerNotificationError?: Prisma.StringNullableFilter<"Order"> | string | null
+  decisionAt?: Prisma.DateTimeNullableFilter<"Order"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Order"> | Date | string
+}
+
+export type OrderCreateManyHouseholdInput = {
+  id?: string
+  orderNumber?: number
+  offerId: string
+  offerTitle: string
+  offerPrice: string
+  walkDateLabel?: string | null
+  walkPeriodLabel?: string | null
+  buyerName: string
+  buyerUsername?: string | null
+  buyerTelegramId?: string | null
+  ownerMessageId?: number | null
+  status?: string
+  notificationStatus?: string
+  notificationError?: string | null
+  buyerNotificationStatus?: string
+  buyerNotificationError?: string | null
+  decisionAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type OrderUpdateWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  offerId?: Prisma.StringFieldUpdateOperationsInput | string
+  offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerName?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type OrderUncheckedUpdateWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  offerId?: Prisma.StringFieldUpdateOperationsInput | string
+  offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerName?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type OrderUncheckedUpdateManyWithoutHouseholdInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  orderNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  offerId?: Prisma.StringFieldUpdateOperationsInput | string
+  offerTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  offerPrice?: Prisma.StringFieldUpdateOperationsInput | string
+  walkDateLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walkPeriodLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerName?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerTelegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerMessageId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  notificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  notificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buyerNotificationStatus?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerNotificationError?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
@@ -715,10 +963,12 @@ export type OrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
@@ -737,10 +987,12 @@ export type OrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  householdId?: boolean
   orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
@@ -759,10 +1011,12 @@ export type OrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   decisionAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["order"]>
 
 export type OrderSelectScalar = {
   id?: boolean
+  householdId?: boolean
   orderNumber?: boolean
   offerId?: boolean
   offerTitle?: boolean
@@ -783,13 +1037,25 @@ export type OrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "orderNumber" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "ownerMessageId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "householdId" | "orderNumber" | "offerId" | "offerTitle" | "offerPrice" | "walkDateLabel" | "walkPeriodLabel" | "buyerName" | "buyerUsername" | "buyerTelegramId" | "ownerMessageId" | "status" | "notificationStatus" | "notificationError" | "buyerNotificationStatus" | "buyerNotificationError" | "decisionAt" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+export type OrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
+}
+export type OrderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
+}
+export type OrderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  household?: boolean | Prisma.HouseholdDefaultArgs<ExtArgs>
+}
 
 export type $OrderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Order"
-  objects: {}
+  objects: {
+    household: Prisma.$HouseholdPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    householdId: string
     orderNumber: number
     offerId: string
     offerTitle: string
@@ -1202,6 +1468,7 @@ readonly fields: OrderFieldRefs;
  */
 export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  household<T extends Prisma.HouseholdDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.HouseholdDefaultArgs<ExtArgs>>): Prisma.Prisma__HouseholdClient<runtime.Types.Result.GetResult<Prisma.$HouseholdPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1232,6 +1499,7 @@ export interface Prisma__OrderClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface OrderFieldRefs {
   readonly id: Prisma.FieldRef<"Order", 'String'>
+  readonly householdId: Prisma.FieldRef<"Order", 'String'>
   readonly orderNumber: Prisma.FieldRef<"Order", 'Int'>
   readonly offerId: Prisma.FieldRef<"Order", 'String'>
   readonly offerTitle: Prisma.FieldRef<"Order", 'String'>
@@ -1267,6 +1535,10 @@ export type OrderFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  /**
    * Filter, which Order to fetch.
    */
   where: Prisma.OrderWhereUniqueInput
@@ -1285,6 +1557,10 @@ export type OrderFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  /**
    * Filter, which Order to fetch.
    */
   where: Prisma.OrderWhereUniqueInput
@@ -1302,6 +1578,10 @@ export type OrderFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Order
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
   /**
    * Filter, which Order to fetch.
    */
@@ -1351,6 +1631,10 @@ export type OrderFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  /**
    * Filter, which Order to fetch.
    */
   where?: Prisma.OrderWhereInput
@@ -1398,6 +1682,10 @@ export type OrderFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Order
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
   /**
    * Filter, which Orders to fetch.
    */
@@ -1447,6 +1735,10 @@ export type OrderCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
+  /**
    * The data needed to create a Order.
    */
   data: Prisma.XOR<Prisma.OrderCreateInput, Prisma.OrderUncheckedCreateInput>
@@ -1480,6 +1772,10 @@ export type OrderCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.OrderCreateManyInput | Prisma.OrderCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1494,6 +1790,10 @@ export type OrderUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Order
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
   /**
    * The data needed to update a Order.
    */
@@ -1546,6 +1846,10 @@ export type OrderUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Orders to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1560,6 +1864,10 @@ export type OrderUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Order
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
   /**
    * The filter to search for the Order to update in case it exists.
    */
@@ -1586,6 +1894,10 @@ export type OrderDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Order
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
   /**
    * Filter which Order to delete.
    */
@@ -1618,4 +1930,8 @@ export type OrderDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Order
    */
   omit?: Prisma.OrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OrderInclude<ExtArgs> | null
 }

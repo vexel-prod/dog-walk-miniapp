@@ -36,6 +36,10 @@ type TelegramWindow = Window & {
   }
 }
 
+type FetchOptions = RequestInit & {
+  headers?: HeadersInit
+}
+
 const offers: Offer[] = [
   {
     id: 'blowjob',
@@ -109,6 +113,11 @@ function getTelegramUser() {
 
   const hash = window.location.hash.startsWith('#') ? window.location.hash.slice(1) : ''
   return parseUserFromTelegramParams(hash)
+}
+
+function getTelegramInitData() {
+  const telegram = (window as TelegramWindow).Telegram?.WebApp
+  return telegram?.initData ?? ''
 }
 
 function getDefaultWalkDate() {
@@ -186,6 +195,7 @@ export default function Page() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
   const [monthCursor, setMonthCursor] = useState<Date | null>(null)
   const [todayIso, setTodayIso] = useState('')
+  const [telegramInitData, setTelegramInitData] = useState('')
   const calendarDays = useMemo(
     () => (monthCursor ? getCalendarDays(monthCursor) : []),
     [monthCursor],
@@ -196,12 +206,27 @@ export default function Page() {
     telegram?.ready?.()
     telegram?.expand?.()
     setBuyer(getTelegramUser())
+    setTelegramInitData(getTelegramInitData())
     const defaultDate = getDefaultWalkDate()
     const now = new Date()
     setTodayIso(defaultDate)
     setWalkDate(defaultDate)
     setMonthCursor(new Date(now.getFullYear(), now.getMonth(), 1))
   }, [])
+
+  async function telegramFetch(input: string, init?: FetchOptions) {
+    const headers = new Headers(init?.headers)
+    const resolvedInitData = telegramInitData || getTelegramInitData()
+
+    if (resolvedInitData) {
+      headers.set('x-telegram-init-data', resolvedInitData)
+    }
+
+    return fetch(input, {
+      ...init,
+      headers,
+    })
+  }
 
   async function submitOrder(offer: Offer) {
     if (!walkDate || !walkPeriod) {
@@ -224,7 +249,7 @@ export default function Page() {
     setIsStatusModalOpen(true)
 
     try {
-      const response = await fetch('/api/order', {
+      const response = await telegramFetch('/api/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -235,9 +260,6 @@ export default function Page() {
           offerPrice: offer.price,
           walkDate: formatWalkDate(walkDate),
           walkPeriod,
-          buyer: getBuyerLabel(buyer),
-          username: buyer?.username ?? null,
-          buyerTelegramId: String(buyer.id),
         }),
       })
 
@@ -323,7 +345,7 @@ export default function Page() {
               </div>
 
               <div
-                className={`rounded-[1.5rem] border p-4 text-base leading-8 ${
+                className={`rounded-3xl border p-4 text-base leading-8 ${
                   status === 'done'
                     ? 'border-emerald-300/20 bg-emerald-400/10 text-emerald-50'
                     : status === 'error'
@@ -353,14 +375,14 @@ export default function Page() {
         </div>
       ) : null}
 
-      <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20' />
+      <div className='pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[24px_24px] opacity-20' />
       <div className='mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-6 px-4 py-4 sm:px-6 sm:py-6'>
         <motion.section
           variants={reveal}
           initial='hidden'
           animate='visible'
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className='hero min-h-[32rem] overflow-hidden rounded-[2rem] border border-white/10 bg-base-100/8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl'
+          className='hero min-h-128 overflow-hidden rounded-4xl border border-white/10 bg-base-100/8 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl'
         >
           <div className='hero-content grid w-full max-w-none gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10'>
             <div className='flex flex-col justify-center gap-6'>
@@ -401,14 +423,14 @@ export default function Page() {
                 transition={{ delay: 0.15, duration: 0.7, ease: 'easeOut' }}
                 className='relative w-full max-w-md'
               >
-                <div className='absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-sky-400/30 via-transparent to-warning/30 blur-3xl' />
+                <div className='absolute inset-0 rounded-[2.5rem] bg-linear-to-br from-sky-400/30 via-transparent to-warning/30 blur-3xl' />
                 <div className='card overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/8 shadow-2xl backdrop-blur-2xl'>
-                  <figure className='relative aspect-square w-full bg-gradient-to-br from-sky-200 via-cyan-100 to-warning/30 p-4'>
+                  <figure className='relative aspect-square w-full bg-linear-to-br from-sky-200 via-cyan-100 to-warning/30 p-4'>
                     <Image
                       src='/dog-walker.png'
                       alt='LuckyWalker dog'
                       fill
-                      className='rounded-[2rem] object-cover'
+                      className='rounded-4xl object-cover'
                       priority
                     />
                   </figure>
@@ -440,7 +462,7 @@ export default function Page() {
           initial='hidden'
           animate='visible'
           transition={{ delay: 0.12, duration: 0.5, ease: 'easeOut' }}
-          className='space-y-6 rounded-[2rem] border border-white/10 bg-base-100/8 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-6'
+          className='space-y-6 rounded-4xl border border-white/10 bg-base-100/8 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-6'
         >
           <div className='flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between'>
             <div className='space-y-3'>
@@ -570,9 +592,9 @@ export default function Page() {
                         key={period}
                         type='button'
                         onClick={() => setWalkPeriod(period)}
-                        className={`rounded-[1.5rem] border px-5 py-5 text-left transition ${
+                        className={`rounded-3xl border px-5 py-5 text-left transition ${
                           walkPeriod === period
-                            ? 'border-transparent bg-gradient-to-r from-warning to-orange-400 text-neutral shadow-xl shadow-orange-500/20'
+                            ? 'border-transparent bg-linear-to-r from-warning to-orange-400 text-neutral shadow-xl shadow-orange-500/20'
                             : 'border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/10'
                         }`}
                       >
@@ -588,23 +610,6 @@ export default function Page() {
                 </div>
               </div>
             </div>
-
-            {/* <div className="card overflow-hidden border border-sky-300/20 bg-gradient-to-br from-sky-500/15 via-base-100/10 to-warning/10 shadow-xl">
-              <div className="card-body justify-between gap-5">
-                <div className="space-y-3">
-                  <div className="badge badge-info badge-outline px-4 py-3">Выбрано сейчас</div>
-                  <h3 className="text-2xl font-black text-white">{formatWalkDate(walkDate)}</h3>
-                  <p className="text-lg text-white/70">{walkPeriod} прогулка</p>
-                </div>
-                <div className="rounded-[1.75rem] border border-white/10 bg-black/20 p-4">
-                  <p className="text-sm uppercase tracking-[0.24em] text-white/50">Статус покупателя</p>
-                  <p className="mt-2 text-xl font-semibold text-white">{getBuyerLabel(buyer)}</p>
-                  <p className="mt-2 text-sm leading-6 text-white/65">
-                    Если приложение открыто не из Telegram Mini App, бот не сможет прислать ответ обеим сторонам.
-                  </p>
-                </div>
-              </div>
-            </div> */}
           </div>
 
           <div className='grid gap-4 lg:grid-cols-3'>
@@ -616,7 +621,7 @@ export default function Page() {
                 transition={{ delay: 0.08 * index, duration: 0.4, ease: 'easeOut' }}
                 className='card overflow-hidden border border-white/10 bg-base-100/10 shadow-xl'
               >
-                <div className={`h-2 w-full bg-gradient-to-r ${offer.accent}`} />
+                <div className={`h-2 w-full bg-linear-to-r ${offer.accent}`} />
                 <div className='card-body gap-5'>
                   <div className='space-y-3'>
                     <p className='text-xs uppercase tracking-[0.3em] text-white/50'>
@@ -649,16 +654,16 @@ export default function Page() {
             transition={{ delay: 0.2, duration: 0.45, ease: 'easeOut' }}
             className='grid gap-4 lg:grid-cols-1'
           >
-            <div className='card border border-emerald-300/15 bg-gradient-to-br from-emerald-400/10 via-base-100/10 to-teal-400/10 shadow-xl'>
+            <div className='card border border-emerald-300/15 bg-linear-to-br from-emerald-400/10 via-base-100/10 to-teal-400/10 shadow-xl'>
               <div className='card-body gap-5'>
                 <div className='space-y-2'>
                   <p className='text-xs uppercase tracking-[0.3em] text-emerald-300'>
                     Свой вариант
                   </p>
-                  <h3 className='text-3xl font-black text-white'>Предложить кастомную оплату</h3>
+                  <h3 className='text-3xl font-black text-white'>Предложить свой вариант оплаты</h3>
                 </div>
                 <textarea
-                  className='textarea h-36 rounded-[1.5rem] border-white/10 bg-black/20 text-base text-white placeholder:text-white/35 focus:border-emerald-300'
+                  className='w-full textarea h-36 rounded-3xl border-white/10 bg-black/20 text-base text-white placeholder:text-white/35 focus:border-emerald-300'
                   placeholder='Например: я приготовлю ужин, сама вымою лапы после прогулки и не трогаю тебя весь вечер'
                   value={customPayment}
                   onChange={event => setCustomPayment(event.target.value)}

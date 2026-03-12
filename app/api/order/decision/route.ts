@@ -1,4 +1,5 @@
 import { getPrisma } from "@/lib/prisma";
+import { getConfiguredUserIds } from "@/lib/household";
 import { formatOrderNumber } from "@/lib/order-format";
 import { type OrderDecision, verifyDecisionToken } from "@/lib/order-approval";
 import { editTelegramMessage, sendTelegramMessage } from "@/lib/telegram";
@@ -67,7 +68,9 @@ export async function GET(request: Request) {
     },
   });
 
-  if (updatedOrder.ownerMessageId && process.env.TELEGRAM_OWNER_CHAT_ID) {
+  const { ownerUserId } = getConfiguredUserIds();
+
+  if (updatedOrder.ownerMessageId && ownerUserId) {
     const ownerWalkLabel = [updatedOrder.walkDateLabel, updatedOrder.walkPeriodLabel]
       .filter(Boolean)
       .join(", ");
@@ -76,7 +79,7 @@ export async function GET(request: Request) {
 
     try {
       await editTelegramMessage({
-        chatId: process.env.TELEGRAM_OWNER_CHAT_ID,
+        chatId: ownerUserId,
         messageId: updatedOrder.ownerMessageId,
         text:
           `Заявка обработана\n\n` +

@@ -1,6 +1,8 @@
+import { authorizeRequest } from "@/lib/auth";
 import { getPrisma } from "@/lib/prisma";
 import { formatOrderNumber } from "@/lib/order-format";
 import { createDecisionToken } from "@/lib/order-approval";
+import { getConfiguredUserIds } from "@/lib/household";
 import { sendTelegramMessage } from "@/lib/telegram";
 import { NextResponse } from "next/server";
 
@@ -10,24 +12,27 @@ type OrderPayload = {
   offerPrice?: string;
   walkDate?: string;
   walkPeriod?: string;
-  buyer?: string;
-  username?: string | null;
-  buyerTelegramId?: string | null;
 };
 
 export async function POST(request: Request) {
   const prisma = getPrisma();
+  const auth = await authorizeRequest(request, prisma);
   const body = (await request.json()) as OrderPayload;
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_OWNER_CHAT_ID;
+  const { ownerUserId } = getConfiguredUserIds();
   const databaseUrl = process.env.DATABASE_URL;
   const origin = new URL(request.url).origin;
 
-  if (!botToken || !chatId || !databaseUrl) {
+  if (!auth) {
+    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!botToken || !ownerUserId || !databaseUrl) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Missing TELEGRAM_BOT_TOKEN, TELEGRAM_OWNER_CHAT_ID, or DATABASE_URL",
+        error:
+          "Missing TELEGRAM_BOT_TOKEN, TELEGRAM_OWNER_USER_ID/TELEGRAM_OWNER_CHAT_ID, or DATABASE_URL",
       },
       { status: 500 },
     );
@@ -38,24 +43,27 @@ export async function POST(request: Request) {
     !body.offerTitle ||
     !body.offerPrice ||
     !body.walkDate ||
-    !body.walkPeriod ||
-    !body.buyerTelegramId
+    !body.walkPeriod
   ) {
     return NextResponse.json({ ok: false, error: "Missing order data" }, { status: 400 });
   }
 
-  const buyerLine = body.buyer ?? "Неизвестный покупатель";
-  const usernameLine = body.username ? `\nUsername: @${body.username}` : "";
+  const buyerLine =
+    [auth.user.first_name, auth.user.last_name].filter(Boolean).join(" ").trim() ||
+    auth.user.username ||
+    auth.member.firstName;
+  const usernameLine = auth.user.username ? `\nUsername: @${auth.user.username}` : "";
   const order = await prisma.order.create({
     data: {
+      householdId: auth.member.householdId,
       offerId: body.offerId,
       offerTitle: body.offerTitle,
       offerPrice: body.offerPrice,
       walkDateLabel: body.walkDate,
       walkPeriodLabel: body.walkPeriod,
       buyerName: buyerLine,
-      buyerUsername: body.username ?? null,
-      buyerTelegramId: body.buyerTelegramId,
+      buyerUsername: auth.user.username ?? null,
+      buyerTelegramId: String(auth.user.id),
     },
   });
 
@@ -76,7 +84,7 @@ export async function POST(request: Request) {
 
   try {
     const ownerMessage = await sendTelegramMessage({
-      chatId,
+      chatId: ownerUserId,
       text: ownerText,
       replyMarkup: {
         inline_keyboard: [
@@ -113,7 +121,7 @@ export async function POST(request: Request) {
 
   try {
     await sendTelegramMessage({
-      chatId: body.buyerTelegramId,
+      chatId: String(auth.user.id),
       text:
         `Твоя заявка создана и ждет решения\n\n` +
         `Номер заявки: ${publicOrderNumber}\n` +

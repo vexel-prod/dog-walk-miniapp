@@ -17,7 +17,8 @@
 1. Создай файл `.env` по примеру `.env.example`.
 2. Укажи:
    - `TELEGRAM_BOT_TOKEN` - токен твоего бота
-   - `TELEGRAM_OWNER_CHAT_ID` - твой Telegram chat id
+   - `TELEGRAM_OWNER_USER_ID` - твой Telegram user id
+   - `TELEGRAM_BUYER_USER_ID` - Telegram user id второго участника, который может оформлять заявку
    - `DATABASE_URL` - connection string от Neon
 3. Установи зависимости:
 
@@ -63,7 +64,8 @@ vercel deploy . -y
 После деплоя добавь в Vercel Project Settings -> Environment Variables:
 
 - `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_OWNER_CHAT_ID`
+- `TELEGRAM_OWNER_USER_ID`
+- `TELEGRAM_BUYER_USER_ID`
 - `DATABASE_URL`
 
 Потом сделай redeploy.

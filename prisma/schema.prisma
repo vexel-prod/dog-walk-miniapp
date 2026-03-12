@@ -8,24 +8,53 @@ datasource db {
   provider = "postgresql"
 }
 
+model Household {
+  id        String   @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  members   Member[]
+  orders    Order[]
+}
+
+model Member {
+  id             String    @id @default(cuid())
+  householdId    String
+  telegramUserId String    @unique
+  chatId         String    @unique
+  firstName      String
+  lastName       String?
+  username       String?
+  role           String    @default("member")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  household      Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+
+  @@index([householdId])
+}
+
 model Order {
-  id                 String   @id @default(cuid())
-  orderNumber        Int      @unique @default(autoincrement())
-  offerId            String
-  offerTitle         String
-  offerPrice         String
-  walkDateLabel      String?
-  walkPeriodLabel    String?
-  buyerName          String
-  buyerUsername      String?
-  buyerTelegramId    String?
-  ownerMessageId     Int?
-  status             String   @default("pending")
-  notificationStatus String   @default("pending")
-  notificationError  String?
+  id                      String    @id @default(cuid())
+  householdId             String    @default("default-dog-walk-household")
+  orderNumber             Int       @unique @default(autoincrement())
+  offerId                 String
+  offerTitle              String
+  offerPrice              String
+  walkDateLabel           String?
+  walkPeriodLabel         String?
+  buyerName               String
+  buyerUsername           String?
+  buyerTelegramId         String?
+  ownerMessageId          Int?
+  status                  String    @default("pending")
+  notificationStatus      String    @default("pending")
+  notificationError       String?
   buyerNotificationStatus String @default("pending")
   buyerNotificationError  String?
-  decisionAt         DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  decisionAt              DateTime?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  household               Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+
+  @@index([householdId, status, createdAt])
 }

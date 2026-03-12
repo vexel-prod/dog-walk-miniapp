@@ -8,5 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Household'
+export type * from './models/Member'
 export type * from './models/Order'
 export type * from './commonInputTypes'
